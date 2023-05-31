@@ -29,6 +29,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'ner.localhost',
+    'gulay.pythonanywhere.com',
+    'ner.gulay.pythonanywhere.com'
     ]
 
 # Application definition
