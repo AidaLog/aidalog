@@ -7,6 +7,8 @@ import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
+import random
+
 this_dir = os.path.join(BASE_DIR, 'ner/engine/')
 model = load_model(this_dir + 'model/NER.h5')
 
@@ -260,7 +262,8 @@ def preview(prediction_labels, style=1):
     plt.axis('off')
 
     print("**********saving Figure")
-    file_name = 'output.png'
+    file_tag = random.randint(100, 9999)
+    file_name = f'output{file_tag}.png'
     target_location = MEDIA_ROOT + "/" + file_name
     plt.savefig(target_location)
     return MEDIA_URL + file_name
