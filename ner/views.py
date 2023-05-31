@@ -3,11 +3,12 @@ from .engine.ner import *
 
 # Create your views here.
 def index(request):
+
     graph_layout = {
         1 : "Kamada Kawai",
         2 : "Circular",
         3 : "Spring",
-        4 : "Spiral"
+        4 : "Spiral" 
     }
 
     if request.POST:
