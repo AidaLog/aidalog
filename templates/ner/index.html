@@ -35,6 +35,12 @@
                         <form method='POST'>{% csrf_token %}
                             <h1 class="display-4 fw-light mb-4">N.E&nbsp;<span class="fw-lighter" style="color: #FA0001;font-size: 37.0408px;"><span style="font-weight: normal !important;">Recognition</span></span></h1>
                             <div class="input-group"><textarea class="form-control" name="message">{{message}}</textarea><button class="btn btn-primary" type="submit" style="background: #FA0001;border-color: #FA0001;">Analyze</button></div>
+                            <select name="layout" class="input-group mt-1">
+                                <option value="1">Select Graph Style</option>
+                                {% for key, value in graph_layout.items %}
+                                  <option value="{{ key }}">{{ value }}</option>
+                                {% endfor %}
+                              </select>
                         </form>
                     </div>
                 </section>
