@@ -197,6 +197,72 @@ def generate_chunk_predictions(chunk_sentence):
 
     return word_defn
 
+def generate_ner_data(prediction_labels):
+    prediction_labels = prediction_labels[0]
+    response_string = ""
+    tag_meaning = {
+        'B-geo': 'Geographical Entity, Beginning of a Location',
+        'B-gpe': 'Geopolitical Entity, Beginning of a Political Entity',
+        'I-art': 'Artwork, Inside an Artwork Entity',
+        'B-eve': 'Event, Beginning of an Event',
+        'B-tim': 'Time Indicator, Beginning of a Time Expression',
+        'I-per': 'Person, Inside a Person Entity',
+        'I-geo': 'Geographical Entity, Inside a Location',
+        'B-org': 'Organization, Beginning of an Organization',
+        'O': 'Other, Not Part of Any Entity',
+        'B-art': 'Artifact, Beginning of an Artifact Entity',
+        'B-per': 'Person, Beginning of a Person Entity',
+        'B-nat': 'Nationality, Beginning of a Nationality',
+        'I-eve': 'Event, Inside an Event Entity',
+        'I-gpe': 'Geopolitical Entity, Inside a Political Entity',
+        'I-tim': 'Time Indicator, Inside a Time Expression',
+        'I-nat': 'Nationality, Inside a Nationality',
+        'I-org': 'Organization, Inside an Organization'
+    }
+    
+    for label in prediction_labels:
+        word = label['Word']
+        tag = label['Tag']
+        pos = label['POS']
+
+        if tag == 'O':
+            response_string += f"<span>{word}</span> "
+        else:
+            # Extract the entity type from the tag (e.g., 'geo', 'gpe', 'art')
+            entity_type = tag.split('-')[1]
+
+            # Define the color for the entity type
+            colors = {
+                'geo': '#FFC107',
+                'gpe': '#FF5722',
+                'art': '#9C27B0',
+                'eve': '#2196F3',
+                'tim': '#4CAF50',
+                'per': '#E91E63',
+                'org': '#607D8B',
+                'nat': '#FF9800',
+                'O': '#9E9E9E'
+            }
+
+            # Define the Font Awesome icon for the entity type
+            icons = {
+                'geo': 'fa-globe',
+                'gpe': 'fa-flag',
+                'art': 'fa-paint-brush',
+                'eve': 'fa-calendar',
+                'tim': 'fa-clock',
+                'per': 'fa-user',
+                'org': 'fa-building',
+                'nat': 'fa-globe',
+                'O': 'fa-cube'
+            }
+
+            # Create the HTML representation for the tag, word, and meaning
+            response_string += f"<span style='background-color: {colors[entity_type]}; color: white; padding: 2px 4px; margin:1.5px; border-radius: 4px;'><i class='fa {icons[entity_type]}' aria-hidden='true' title='{tag_meaning[tag]}'></i> {word}</span> "
+    
+    return response_string
+
+
 
 def preview(prediction_labels, style=1):
     plt.figure(figsize=(28, 28))
