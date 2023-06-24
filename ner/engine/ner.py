@@ -220,6 +220,7 @@ def generate_ner_data(prediction_labels):
         'I-org': 'Organization, Inside an Organization'
     }
     
+    previous_tag = ''
     for label in prediction_labels:
         word = label['Word']
         tag = label['Tag']
@@ -257,10 +258,17 @@ def generate_ner_data(prediction_labels):
                 'O': 'fa-cube'
             }
 
-            # Create the HTML representation for the tag, word, and meaning
-            response_string += f"<span style='background-color: {colors[entity_type]}; color: white; padding: 2px 4px; margin:1.5px; border-radius: 4px;'><i class='fa {icons[entity_type]}' aria-hidden='true' title='{tag_meaning[tag]}'></i> {word}</span> "
+            if tag == previous_tag:
+                # Join the current word with the previous word
+                response_string = response_string[:-7] + word + "</span> "
+            else:
+                # Create a new HTML representation for the tag, word, and meaning
+                response_string += f"<span style='background-color: {colors[entity_type]}; color: white; padding: 2px 4px; margin:1.5px; border-radius: 4px;'><i class='fa {icons[entity_type]}' aria-hidden='true' title='{tag_meaning[tag]}'></i> {word}</span> "
+
+        previous_tag = tag
     
     return response_string
+
 
 
 
