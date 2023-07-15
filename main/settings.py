@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_hosts',
-    'ner'
+    'home',
+    # 'ner', it loads ner model with tensorflow
+    'logbook'
 ]
 
 MIDDLEWARE = [
