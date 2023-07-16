@@ -24,5 +24,6 @@ urlpatterns = [
     path('', include('home.urls')),
     path('lled/', admin.site.urls),
     # path('ner/', include('ner.urls')) # return on production
+    path('logbook/', include('logbook.urls')),
     ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
