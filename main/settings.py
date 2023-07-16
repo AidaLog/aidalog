@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_hosts',
     'home',
-    # 'ner', 
+    'ner', 
     'logbook'
 ]
 
