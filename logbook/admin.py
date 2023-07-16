@@ -1,3 +1,14 @@
 from django.contrib import admin
+from .models import Student, Logbook, Entry
 
-# Register your models here.
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ['user', 'university', 'department_name', 'registration_number', 'year_of_study', 'pt_location']
+
+@admin.register(Logbook)
+class LogbookAdmin(admin.ModelAdmin):
+    list_display = ['student', 'week_number', 'from_date', 'to_date', 'is_submitted']
+
+@admin.register(Entry)
+class EntryAdmin(admin.ModelAdmin):
+    list_display = ['logbook', 'day', 'date', 'activity', 'rating', 'created_at', 'updated_at']

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
+    <title>
+        Logbook
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- Nucleo Icons -->
+    <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link href="./assets/css/blk-design-system.css?v=1.0.0" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="./assets/demo/demo.css" rel="stylesheet" />
+</head>
+
+
+<body>
+    <!-- Navbar  -->
+    <nav class="navbar navbar-expand-lg navbar-transparent">
+        <div class="container">
+            <div class="navbar-translate">
+                <a class="navbar-brand" href="#pablo">LogBook</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#example-navbar-primary" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-bar bar1"></span>
+                    <span class="navbar-toggler-bar bar2"></span>
+                    <span class="navbar-toggler-bar bar3"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="example-navbar-primary">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#pablo">
+                            <i class="tim-icons icon-world"></i> Discover
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pablo">
+                            <i class="tim-icons icon-settings-gear-63"></i> Settings
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <div class="wrapper">
+
+        <div class="main">
+            <div class="section">
+                <div class="container">
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-lg-5 mb-5 mb-lg-0 ">
+                            <h1 class="text-white font-weight-light">Logbook - Week 1</h1>
+                            <h4 class="text-warning font-weight-light">Main Operation Summary</h4>
+                            <p class="text-white mt-4">Designed to simplify and enhance your logbook management. Say
+                                goodbye to tedious and time-consuming manual entries. With our intuitive tool, you can
+                                effortlessly organize, track, and manage your logbook entries with ease.</p>
+                            <a href="#" class="btn btn-neutral btn-round mt-4">Update</a>
+                            <a href="#" class="btn btn-success btn-round mt-4">Print</a>
+                        </div>
+
+                        <div class="col-lg-5 mb-5 mb-lg-0">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="progress-container progress-primary">
+                                        <span class="progress-badge">Entries</span>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-warning" role="progressbar"
+                                                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                                style="width: 60%;">
+                                                <span class="progress-value">(3/5) - 60%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- table to show start and end date -->
+                                    <div class="table mt-5">
+                                        <table class="table tablesorter rounded" id="">
+                                            <thead class=" text-primary">
+                                                <tr>
+                                                    <th class="text-center">
+                                                        Start Date
+                                                    </th>
+                                                    <th class="text-center">
+                                                        End Date
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        01/01/2020
+                                                    </td>
+                                                    <td class="text-center">
+                                                        07/01/2020
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- table to show next reminder (time and date) and is_approved  -->
+                                    <div class="table">
+                                        <table class="table tablesorter rounded" id="">
+                                            <thead class=" text-primary">
+                                                <tr>
+                                                    <th class="text-center">
+                                                        Next Reminder
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Is Approved
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        01/01/2020 12:00
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span class="badge badge-success p-2 font-weight-light">approved
+                                                            🎉</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="entries">
+                
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="font-weight-light text-white">
+                                <span>Entries</span>
+                            </h1>
+                        </div>
+                    </div>
+                    
+
+                    <hr class="bg-primary p-1">
+                    <!-- monday Entry -->
+                    <div class="row">
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card">
+                                <div class="card-body justify-content-center align-items-center">
+                                    <!-- Entry day and date -->
+                                    <h4 class="font-weight-light mb-3">Monday</h4>
+                                    <p class="font-weight-light display-6 text-primary">12/08/2023</p>
+                                    <!-- end table day date -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8 col-lg-9">
+                            <div class="card">
+                                <!-- Entry content -->
+                                <div class="card-body">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis aliquam maxime
+                                        quisquam. Quia deserunt sequi cupiditate tempora, a laborum quos corporis, ipsam
+                                        itaque eveniet voluptatum vitae aperiam consectetur earum aliquid.
+                                    </p>
+                                    <a href="#" class="btn btn-neutral btn-round mt-2 btn-sm float-right" style="font-size: 12px;">Update</a>
+                                </div>
+                                <!-- end entry content -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end monday entry -->
+
+                    <hr class="bg-success p-1">
+                    <!-- tuesday Entry -->
+                    <div class="row">
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card">
+                                <div class="card-body justify-content-center align-items-center">
+                                    <!-- Entry day and date -->
+                                    <h4 class="font-weight-light mb-3">Tuesday</h4>
+                                    <p class="font-weight-light display-6 text-primary">12/08/2023</p>
+                                    <!-- end table day date -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8 col-lg-9">
+                            <div class="card">
+                                <!-- Entry content -->
+                                <div class="card-body">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis aliquam maxime
+                                        quisquam. Quia deserunt sequi cupiditate tempora, a laborum quos corporis, ipsam
+                                        itaque eveniet voluptatum vitae aperiam consectetur earum aliquid.
+                                    </p>
+                                </div>
+                                <!-- end entry content -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end tuesday entry -->
+
+                    <hr class="bg-info p-1">
+                    <!-- wednesday Entry -->
+                    <div class="row">
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card">
+                                <div class="card-body justify-content-center align-items-center">
+                                    <!-- Entry day and date -->
+                                    <h4 class="font-weight-light mb-3">Wednesday</h4>
+                                    <p class="font-weight-light display-6 text-primary">12/08/2023</p>
+                                    <!-- end table day date -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8 col-lg-9">
+                            <div class="card">
+                                <!-- Entry content -->
+                                <div class="card-body">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis aliquam maxime
+                                        quisquam. Quia deserunt sequi cupiditate tempora, a laborum quos corporis, ipsam
+                                        itaque eveniet voluptatum vitae aperiam consectetur earum aliquid.
+                                    </p>
+                                </div>
+                                <!-- end entry content -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end wednesday entry -->
+
+                    <hr class="bg-warning p-1">
+                    <!-- thursday Entry -->
+                    <div class="row">
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card">
+                                <div class="card-body justify-content-center align-items-center">
+                                    <!-- Entry day and date -->
+                                    <h4 class="font-weight-light mb-3">Thursday</h4>
+                                    <p class="font-weight-light display-6 text-primary">12/08/2023</p>
+                                    <!-- end table day date -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8 col-lg-9">
+                            <div class="card">
+                                <!-- Entry content -->
+                                <div class="card-body">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis aliquam maxime
+                                        quisquam. Quia deserunt sequi cupiditate tempora, a laborum quos corporis, ipsam
+                                        itaque eveniet voluptatum vitae aperiam consectetur earum aliquid.
+                                    </p>
+                                </div>
+                                <!-- end entry content -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end thursday entry -->
+
+                    <hr class="bg-light p-1">
+                    <!-- friday Entry -->
+                    <div class="row">
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card">
+                                <div class="card-body justify-content-center align-items-center">
+                                    <!-- Entry day and date -->
+                                    <h4 class="font-weight-light mb-3">Friday</h4>
+                                    <p class="font-weight-light display-6 text-primary">12/08/2023</p>
+                                    <!-- end table day date -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8 col-lg-9">
+                            <div class="card">
+                                <!-- Entry content -->
+                                <div class="card-body">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis aliquam maxime
+                                        quisquam. Quia deserunt sequi cupiditate tempora, a laborum quos corporis, ipsam
+                                        itaque eveniet voluptatum vitae aperiam consectetur earum aliquid.
+                                    </p>
+                                </div>
+                                <!-- end entry content -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end friday entry -->
+
+                </div>
+            </div>
+
+
+        </div>
+</body>
+
+<!--   Core JS Files   -->
+<script src="./assets/js/core/jquery.min.js" type="text/javascript"></script>
+<script src="./assets/js/core/popper.min.js" type="text/javascript"></script>
+<script src="./assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+<script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="./assets/js/plugins/bootstrap-switch.js"></script>
+<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+<script src="./assets/js/plugins/nouislider.min.js" type="text/javascript"></script>
+<!-- Chart JS -->
+<script src="./assets/js/plugins/chartjs.min.js"></script>
+<!--  Plugin for the DatePicker, full documentation here: https://github.com/uxsolutions/bootstrap-datepicker -->
+<script src="./assets/js/plugins/moment.min.js"></script>
+<script src="./assets/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+<!-- Black Dashboard DEMO methods, don't include it in your project! -->
+<script src="./assets/demo/demo.js"></script>
+<!-- Control Center for Black UI Kit: parallax effects, scripts for the example pages etc -->
+<script src="./assets/js/blk-design-system.min.js?v=1.0.0" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        blackKit.initDatePicker();
+        blackKit.initSliders();
+    });
+
+    function scrollToDownload() {
+
+        if ($('.section-download').length != 0) {
+            $("html, body").animate({
+                scrollTop: $('.section-download').offset().top
+            }, 1000);
+        }
+    }
+</script>
+
+</html>
