@@ -12,14 +12,22 @@
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-primary">
             <ul class="navbar-nav ml-auto">
+                <!-- home link-->
                 <li class="nav-item active">
-                    <a class="nav-link" href="#pablo">
-                        <i class="tim-icons icon-world"></i> Discover
+                    <a class="nav-link" href="{% url 'logbook_home' %}">
+                        🏡 Home
                     </a>
                 </li>
+                <!-- catalog link-->
+                <li class="nav-item active">
+                    <a class="nav-link text-success" href="{% url 'logbook_catalog' %}">
+                        Catalog
+                    </a>
+                </li>
+                <!-- settings link-->
                 <li class="nav-item">
-                    <a class="nav-link" href="#pablo">
-                        <i class="tim-icons icon-settings-gear-63"></i> Settings
+                    <a class="nav-link text-primary" href="{% url 'logbook_settings' %}">
+                         Settings
                     </a>
                 </li>
             </ul>
