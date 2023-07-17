@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-transparent">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" href="#pablo">LogBook</a>
+            <a class="navbar-brand" href="{% url 'logbook_home' %}">LogBook</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#example-navbar-primary" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -12,15 +12,10 @@
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-primary">
             <ul class="navbar-nav ml-auto">
-                <!-- home link-->
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'logbook_home' %}">
-                        🏡 Home
-                    </a>
-                </li>
+                
                 <!-- catalog link-->
                 <li class="nav-item active">
-                    <a class="nav-link text-success" href="{% url 'logbook_catalog' %}">
+                    <a class="nav-link" href="{% url 'logbook_catalog' %}">
                         Catalog
                     </a>
                 </li>
@@ -30,6 +25,22 @@
                          Settings
                     </a>
                 </li>
+
+                <!-- home link-->
+                <li class="nav-item active">
+                    <!-- if user is logged in display name else signin link-->
+                    {% if user.is_authenticated %}
+                        <a class="nav-link" href="{% url 'logbook_logout_redirect' %}">
+                            📑 {{request.user.username}}
+                        </a>
+                    {% else %}
+                        <a class="btn text-primary" role="button" href="{% url 'logbook_redirect_login' %}">log in</a>
+                    {% endif %}
+                    
+                </li>
+
+
+
             </ul>
         </div>
     </div>

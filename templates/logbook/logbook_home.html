@@ -11,7 +11,11 @@
                     <div class="col-lg-5 mb-5 mb-lg-0 ">
                         <h1 class="text-white font-weight-light">Aided Logbook Entry helper</h1>
                         <p class="text-white mt-4">Designed to simplify and enhance your logbook management. Say goodbye to tedious and time-consuming manual entries. With our intuitive tool, you can effortlessly organize, track, and manage your logbook entries with ease.</p>
-                        <a href="#" class="btn btn-warning mt-4">My Logbooks</a>
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url 'logbook_catalog' %}" class="btn btn-warning mt-4">My Logbooks</a>
+                        {% else %}
+                            <a href="{% url 'logbook_redirect_login' %}" class="btn btn-warning mt-4">Sign In</a>
+                        {% endif %}
                     </div>
                     
                     <div class="col-lg-6">
