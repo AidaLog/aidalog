@@ -21,7 +21,7 @@ def signup_view(request):
         else:
             user = User.objects.create_user(username, email, password)
             user.save()
-            return redirect("/logbook_redirect_login")
+            return redirect("/login")
 
     return render(request, 'home/signup.html', context)
 
