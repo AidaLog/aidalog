@@ -12,7 +12,8 @@
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-primary">
             <ul class="navbar-nav ml-auto">
-                
+                <!-- if user is logged in display name else signin link-->
+                {% if user.is_authenticated %}
                 <!-- catalog link-->
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'logbook_catalog' %}">
@@ -22,25 +23,21 @@
                 <!-- settings link-->
                 <li class="nav-item">
                     <a class="nav-link text-primary" href="{% url 'logbook_settings' %}">
-                         Settings
+                        Settings
                     </a>
                 </li>
-
                 <!-- home link-->
                 <li class="nav-item active">
-                    <!-- if user is logged in display name else signin link-->
-                    {% if user.is_authenticated %}
-                        <a class="nav-link" href="{% url 'logbook_logout_redirect' %}">
-                            📑 {{request.user.username}}
-                        </a>
-                    {% else %}
-                        <a class="btn text-primary" role="button" href="{% url 'logbook_redirect_login' %}">log in</a>
-                    {% endif %}
-                    
+                    <a class="nav-link text-primary" href="{% url 'logbook_logout_redirect' %}">
+                        📑 {{request.user.username}}
+                    </a>
                 </li>
-
-
-
+                {% else %}
+                <!-- home link-->
+                <li class="nav-item active">
+                    <a class="btn text-primary" role="button" href="{% url 'logbook_redirect_login' %}">log in</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>

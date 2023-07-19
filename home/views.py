@@ -1,12 +1,29 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import User
+
 
 def home_view(request):
     return render(request, "home/index.html")
 
 # signup view
 def signup_view(request):
-    return render(request, 'home/signup.html')
+    context = {}
+    if request.POST:
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+
+        if User.objects.filter(username=username).exists():
+            context['form_errors'] = "username already exists"
+        elif User.objects.filter(email=email).exists():
+            context['form_errors'] = "email already exists"
+        else:
+            user = User.objects.create_user(username, email, password)
+            user.save()
+            return redirect("/logbook_redirect_login")
+
+    return render(request, 'home/signup.html', context)
 
 
 def logout_view(request):
@@ -35,4 +52,3 @@ def login_view(request):
             return success
 
     return render(request, 'home/login.html', context)
-

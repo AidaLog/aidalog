@@ -6,12 +6,107 @@
             <div class="bs-icon-xl bs-icon-circle bs-icon-primary shadow bs-icon my-4"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-person">
                     <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"></path>
                 </svg></div>
-            <form method="post" data-bs-theme="light">
-                <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Email"></div>
-                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Password"></div>
+            <form method="post" data-bs-theme="light" id="form"> {% csrf_token %}
+                <div class="mb-3"><input class="form-control" required type="text" name="username" id="username" placeholder="username"></div>
+                <div class="mb-3"><input class="form-control" required type="email" name="email" id="email" placeholder="Email"></div>
+                <div class="mb-3"><input class="form-control" required type="password" name="password" id="password1" placeholder="Password"></div>
+                <div class="mb-3"><input class="form-control" required type="password" name="password2" id="password2" placeholder="Confirm Password"></div>
+                <span class="text-danger" id="validation_error">{{form_errors}}</span>
                 <div class="mb-3"><button class="btn btn-primary shadow d-block w-100" type="submit">Sign up</button></div>
             </form>
             <p class="text-muted">Already have an account?&nbsp;<a href="{% url 'login' %}">Log in</a></p>
         </div>
     </div>
+
+    <!-- script for form validation -->
+    <script>
+        // check if email field is valid
+        function validateEmail(email) {
+            var re = /\S+@\S+\.\S+/;
+            return re.test(email);
+        }
+
+        // check if password field is valid
+        function validatePassword(password) {
+            var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+            return re.test(password);
+        }
+
+        // check if username field is valid
+        function validateUsername(username) {
+            var re = /^[a-zA-Z0-9_]{5,}[a-zA-Z]+[0-9]*$/;
+            return re.test(username);
+        }
+
+        // check if password and confirm password fields match
+        function validatePasswordMatch(password1, password2) {
+            return password1 === password2;
+        }
+
+        // check if all fields are valid
+        function validateForm(username, email, password1, password2) {
+            return validateUsername(username) && validateEmail(email) && validatePassword(password1) && validatePasswordMatch(password1, password2);
+        }
+
+        // get form elements
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const password1 = document.getElementById('password1');
+        const password2 = document.getElementById('password2');
+        const form = document.getElementById('form');
+
+        // validate each input on input 
+        username.addEventListener('input', function() {
+            if (validateUsername(username.value)) {
+                username.classList.remove('is-invalid');
+                username.classList.add('is-valid');
+            } else {
+                username.classList.remove('is-valid');
+                username.classList.add('is-invalid');
+            }
+        });
+
+        email.addEventListener('input', function() {
+            if (validateEmail(email.value)) {
+                email.classList.remove('is-invalid');
+                email.classList.add('is-valid');
+            } else {
+                email.classList.remove('is-valid');
+                email.classList.add('is-invalid');
+            }
+        });
+
+        password1.addEventListener('input', function() {
+            if (validatePassword(password1.value)) {
+                password1.classList.remove('is-invalid');
+                password1.classList.add('is-valid');
+            } else {
+                password1.classList.remove('is-valid');
+                password1.classList.add('is-invalid');
+            }
+        });
+
+        password2.addEventListener('input', function() {
+            if (validatePasswordMatch(password1.value, password2.value)) {
+                password2.classList.remove('is-invalid');
+                password2.classList.add('is-valid');
+            } else {
+                password2.classList.remove('is-valid');
+                password2.classList.add('is-invalid');
+            }
+        });
+
+        // validate form on submit
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (validateForm(username.value, email.value, password1.value, password2.value)) {
+                form.submit();
+            } else {
+                document.getElementById('validation_error').innerHTML = 'Please fill all fields correctly';
+                
+            }
+        });
+
+
+    </script>
 {% endblock %}
