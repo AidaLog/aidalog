@@ -226,8 +226,27 @@ def create_entry_view(request, logbook_id):
     if login_pass is not True:
         return login_pass
 
-    # create new entry then redirect to logbook_detail
-    return render(request, 'logbook/logbook_entry.html', {})
+    logbook = Logbook.objects.get(id=logbook_id)
+    # get form data
+    if request.POST:
+        date_input = request.POST['date_input']
+        activity_summary = request.POST['activity_summary']
+
+        # get day name from date input
+        day_name = datetime.strptime(date_input, '%Y-%m-%d').strftime('%A')
+
+        # create new entry
+        Entry.objects.create(
+            logbook=logbook,
+            day=day_name,
+            date=date_input,
+            activity=activity_summary)
+
+        return redirect("/logbook/catalog/" + str(logbook_id))
+    context = {
+        'logbook': logbook
+    }
+    return render(request, 'logbook/logbook_entry.html', context)
 
 
 def update_entry_view(request, logbook_id, entry_id):
@@ -236,8 +255,32 @@ def update_entry_view(request, logbook_id, entry_id):
     if login_pass is not True:
         return login_pass
 
+    logbook = Logbook.objects.get(id=logbook_id)
+    entry = Entry.objects.get(id=entry_id, logbook=logbook) 
+     
+    # get form data
+    if request.POST:
+        date_input = request.POST['date_input']
+        activity_summary = request.POST['activity_summary']
+
+        # get day name from date input
+        day_name = datetime.strptime(date_input, '%Y-%m-%d').strftime('%A')
+
+        entry.day=day_name
+        entry.date=date_input
+        entry.activity=activity_summary
+        entry.save()
+
+        return redirect("/logbook/catalog/" + str(logbook_id))
+
+    context = {
+        'logbook': logbook,
+        'entry': entry,
+        'entry_date': entry.date.strftime("%Y-%m-%d")
+    }
+
     # update entry then redirect to logbook_detail
-    return render(request, 'logbook/logbook_entry.html', {})
+    return render(request, 'logbook/logbook_entry.html', context)
 
 
 def logbook_redirect_login(request):

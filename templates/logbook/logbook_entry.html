@@ -8,7 +8,7 @@
         <div class="main">
             <div class="section">
                 <div class="container">
-                    <form class="row justify-content-between">
+                    <form class="row justify-content-between" method="post"> {% csrf_token %}
 
                         <div class="col-lg-6">
                             <div class="card card-plain">
@@ -18,10 +18,10 @@
                                         <div class="col-sm-12">
                                             <div class="datepicker-container">
                                                 <div class="form-group">
-                                                    <label>Entry date</label>
-                                                    <input type="text" id="datepicker"
-                                                        class="form-control datepicker rounded border border-warning"
-                                                        placeholder="Date" data-datepicker-color="Success" id="date_input">
+                                                    <label>Entry date: {{entry.date}}</label>
+                                                    <input type="date" id="datepicker"
+                                                        class="form-control datepicker rounded border border-warning" value="{{entry_date}}"
+                                                        placeholder="Date" data-datepicker-color="Success" id="date_input" name="date_input">
                                                 </div>
                                             </div>
                                         </div>
@@ -29,8 +29,8 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <label>Activity Summary</label>
-                                                <textarea class="form-control rounded border border-primary"
-                                                    name="activity_summary" id="activity_summary" placeholder="Day activity details"></textarea>
+                                                <textarea class="form-control rounded border border-primary" value="{{entry.activity}}"
+                                                    name="activity_summary" id="activity_summary" placeholder="Day activity details">{{entry.activity}}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -42,9 +42,15 @@
                         <div class="col-lg-6">
                             <div class="card card-plain">
                                 <div class="card-body">
-                                    <h2 class="font-weight-light">Week -1 (Monday 19/08/2023)</h2>
+                                    <h2 class="font-weight-light">Week - {{logbook.week_number}}<span class="px-2"></span>( 
+                                    {% if entry.date %}
+                                        {{entry.date}}
+                                    {% else %}
+                                        {{logbook.from_date}}
+                                    {% endif %})</h2>
                                     <h4 class="text-light">Summarized Entry</h4>
-                                    <p class="text-white mt-4" id="summary">Keep your account information up to date
+                                    <p class="text-white mt-4" id="summary">
+                                        Keep your account information up to date
                                         effortlessly, ensuring
                                         accurate communication and personalized experiences. Simply make the desired
                                         changes,

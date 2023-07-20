@@ -103,7 +103,39 @@
                         </div>
                     </div>
                     
+                    
+                    {% for entry in metadata.entries %}
+                    <hr class="bg-primary p-1">
+                    <!-- monday Entry -->
+                    <div class="row">
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card">
+                                <div class="card-body justify-content-center align-items-center">
+                                    <!-- Entry day and date -->
+                                    <h4 class="font-weight-light mb-3">{{entry.day}}</h4>
+                                    <p class="font-weight-light display-6 text-primary">{{entry.date}}</p>
+                                    <!-- end table day date -->
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="col-md-8 col-lg-9">
+                            <div class="card">
+                                <!-- Entry content -->
+                                <div class="card-body">
+                                    <p>
+                                        {{entry.activity}}
+                                    </p>
+                                    <a href="{% url 'logbook_entry' logbook.id entry.id %}" class="btn btn-neutral btn-round mt-2 btn-sm float-right" style="font-size: 12px;">Update</a>
+                                </div>
+                                <!-- end entry content -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end monday entry -->
+                    {% endfor %}
+
+                    {% comment %}                         
                     <hr class="bg-primary p-1">
                     <!-- monday Entry -->
                     <div class="row">
@@ -249,6 +281,7 @@
                         </div>
                     </div>
                     <!-- end friday entry -->
+                     {% endcomment %}
                 </div>
             </div>
         </div>
