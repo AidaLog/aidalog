@@ -25,7 +25,14 @@
                 <div class="container">
 
                     {% if logbook_count == 0 %}
-                            <!-- No logbooks created yet -->
+                        <div class="alert alert-success alert-with-icon">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="tim-icons icon-simple-remove"></i>
+                            </button>
+                            <span data-notify="icon" class="tim-icons icon-bell-55"></span>
+                            <span>
+                            <b> Welcome </b> Create your first Logbook from the button above </span>
+                        </div>
                     {% else %}
                         {% for logbook in logbooks %}
                             <!-- catalog item -->
@@ -34,10 +41,7 @@
                                     <h2 class="text-white font-weight-light">Logbook - Week {{ logbook.week_number }}</h2>
                                     <h4 class="text-warning font-weight-light">Main Operation</h4>
                                     <p class="text-white mt-4">
-                                        Designed to simplify and enhance your logbook management.
-                                        Say goodbye to tedious and time-consuming manual entries.
-                                        With our intuitive tool, you can effortlessly organize,
-                                        track, and manage your logbook entries with ease.
+                                        {{logbook.week_activity}}
                                     </p>
                                 </div>
                                 <div class="col-lg-5 mb-lg-0">

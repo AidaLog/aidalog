@@ -3,10 +3,18 @@ from home.views import process_login, logout
 from .models import *
 from datetime import datetime, timedelta
 
+def is_allowed(request):
+    if request.user.is_authenticated:
+        return True
+    else:
+        return redirect("/logbook/logbook_redirect_login")
+
+
 def logbook_home_view(request):
     # check if user is logged in
-    login_pass = False
-    if request.user.is_authenticated: login_pass = True
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        login_pass = False
 
     # try to get student status
     try:
@@ -22,6 +30,11 @@ def logbook_home_view(request):
 
 
 def profile_settings_view(request):
+    # check if user is logged in
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        return login_pass
+
     # load form data
     if request.POST:
         # get form data
@@ -86,6 +99,11 @@ def profile_settings_view(request):
 
 
 def logbook_catalog_view(request):
+    # check if user is logged in
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        return login_pass
+
     if request.POST:
         return logbook_create_view(request)
 
@@ -100,6 +118,25 @@ def logbook_catalog_view(request):
  
     # get logbooks
     logbooks = Logbook.objects.filter(student=student)
+    logbook_catalog = []
+
+    for logbook in logbooks:
+        metadata = {}
+        metadata['id'] = logbook.id
+        metadata['week_number'] = logbook.week_number
+        metadata['from_date'] = logbook.from_date
+
+        # get entries from this logbook
+        try:
+            entries = Entry.objects.filter(logbook=logbook)
+            metadata['entries'] = entries
+            metadata['entry_count'] = len(entries)
+            # percentage of entries completed out of 5
+            metadata['percentage'] = int((len(entries) / 5) * 100)
+        except Entry.DoesNotExist:
+            entries = None
+
+        
 
     context = {
         "logbooks": logbooks,
@@ -110,17 +147,33 @@ def logbook_catalog_view(request):
 
 
 def logbook_detail_view(request, logbook_id):
+    # check if user is logged in
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        return login_pass
+
     return render(request, 'logbook/logbook_detail.html', {})
 
 
 def logbook_create_view(request):
+    # check if user is logged in
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        return login_pass
+
     # get student
     student = Student.objects.get(user=request.user)
-
+    # get training start date
+    start_date = student.practical_training_start_date
+    start_date_week_number = start_date.isocalendar()[1]
     # Get the current date
-    current_date = datetime.now().date() # Set the week number based on the ISO week number of the current date
-    week_number = current_date.isocalendar()[1] # Calculate the start date (Monday) of the week for the given week number and year
-    from_date = current_date - timedelta(days=current_date.isocalendar()[2] - 1)  # Calculate the end date (Friday) of the week for the given week number and year
+    current_date = datetime.now().date() 
+    current_week_number = current_date.isocalendar()[1] 
+
+    week_number = current_week_number - start_date_week_number
+    if week_number == 0: week_number = 1
+
+    from_date = current_date - timedelta(days=current_date.isocalendar()[2] - 1)  
     to_date = from_date + timedelta(days=4)
     # get passed form data
     week_activity = request.POST['week_activity']
@@ -140,12 +193,27 @@ def logbook_create_view(request):
 
     return redirect("/logbook/catalog")
 
+
+def delete_logbook(request, logbook_id):
+    pass
+
+
 def create_entry_view(request, logbook_id):
+    # check if user is logged in
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        return login_pass
+
     # create new entry then redirect to logbook_detail
     return render(request, 'logbook/logbook_entry.html', {})
 
 
 def update_entry_view(request, logbook_id, entry_id):
+    # check if user is logged in
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        return login_pass
+
     # update entry then redirect to logbook_detail
     return render(request, 'logbook/logbook_entry.html', {})
 
