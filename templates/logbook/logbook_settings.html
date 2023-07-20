@@ -16,7 +16,7 @@
                         </div>
 
                         <div class="col-lg-6">
-                            <form>
+                            <form method="post"> {% csrf_token %}
                                 <div class="card card-plain">
                                     <div class="card-header">
                                         <h1 class="profile-title text-left">Account Info</h1>
@@ -27,15 +27,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Your username</label>
-                                                    <input type="text" class="form-control" value="username"
-                                                        name="username">
+                                                    <input type="text" class="form-control" value="{{request.user.username}}" name="username">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Email address</label>
-                                                    <input type="email" class="form-control" name="email"
-                                                        placeholder="lled@outlook.com">
+                                                    <input type="email" class="form-control" name="email" placeholder="Email address" value="{{request.user.email}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -43,29 +41,25 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>First name</label>
-                                                    <input type="text" class="form-control" placeholder="First name"
-                                                        name="first_name">
+                                                    <input type="text" class="form-control" placeholder="First name" name="first_name" value="{{request.user.first_name}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Last name</label>
-                                                    <input type="text" class="form-control" placeholder="last name"
-                                                        name="last_name">
+                                                    <input type="text" class="form-control" placeholder="last name" name="last_name" value="{{request.user.last_name}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Student Registration Number</label>
-                                                    <input type="text" class="form-control" placeholder="2021-04-0000"
-                                                        name="reg_number">
+                                                    <input type="text" class="form-control" placeholder="2021-04-0000" name="reg_number" value="{{student.registration_number}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Year of study</label>
-                                                    <input type="text" class="form-control"
-                                                        placeholder="year of study ie II" name="year_of_study">
+                                                    <input type="text" class="form-control" placeholder="year of study ie 1 or 2 ..." name="year_of_study" value="{{student.year_of_study}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -84,23 +78,23 @@
                                                 <div class="form-group">
                                                     <label>University department name</label>
                                                     <input type="text" class="form-control" name="dept_name"
-                                                        placeholder="department name">
+                                                        placeholder="department name" value="{{student.department_name}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Company Name</label>
-                                                    <input type="email" class="form-control" name="company_name"
-                                                        placeholder="Company (PT area name)">
+                                                    <input type="text" class="form-control" name="company_name"
+                                                        placeholder="Company (PT area name)" value="{{student.pt_location}}">
                                                 </div>
                                             </div>
                                             <div class="col-sm-12">
                                                 <div class="datepicker-container">
                                                     <div class="form-group">
                                                         <label>Start date</label>
-                                                        <input type="text" id="datepicker"
+                                                        <input type="date" id="datepicker"
                                                             class="form-control datepicker" placeholder="Start date"
-                                                            data-datepicker-color="Success">
+                                                            data-datepicker-color="Success" name="start_date" value="{{student.practical_training_start_date}}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -110,7 +104,7 @@
                                                 <div class="form-group">
                                                     <button type="submit" class="btn btn-neutral btn-round float-right"
                                                         rel="tooltip" data-original-title="Update profile data"
-                                                        data-placement="right">Update details</button>
+                                                        data-placement="right">Save details</button>
                                                 </div>
                                             </div>
                                         </div>

@@ -9,6 +9,7 @@ class Student(models.Model):
     registration_number = models.CharField(max_length=255)
     year_of_study = models.IntegerField()
     pt_location = models.CharField(max_length=255)
+    practical_training_start_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'
@@ -20,7 +21,7 @@ class Logbook(models.Model):
     from_date = models.DateField()
     to_date = models.DateField()
     is_submitted = models.BooleanField(default=False)
-
+    week_activity = models.TextField(blank=True)
     def __str__(self):
         return f'Logbook week:{self.week_number}'
 
