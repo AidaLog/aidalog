@@ -8,8 +8,15 @@ def logbook_home_view(request):
     login_pass = False
     if request.user.is_authenticated: login_pass = True
 
+    # try to get student status
+    try:
+        student = Student.objects.get(user=request.user)
+    except:
+        student = None
+
     context = {
-        'login_pass' : login_pass
+        'login_pass' : login_pass,
+        'student' : student
     }
     return render(request, 'logbook/logbook_home.html', context)
 
@@ -37,7 +44,11 @@ def profile_settings_view(request):
         user.save()
 
         # check if Student with user exists
-        student = Student.objects.get(user=user)
+        try:
+            student = Student.objects.get(user=user)
+        except Student.DoesNotExist:
+            student = None
+
         if student is None:
             # create new student
             student = Student()
@@ -61,23 +72,33 @@ def profile_settings_view(request):
         return redirect("/logbook")
 
     # get student information
-    student = Student.objects.get(user=request.user)
-    if student is  None:
-        return redirect("/logbook/logbook_redirect_login")
+    try:
+        student = Student.objects.get(user=request.user)
+    except Student.DoesNotExist:
+        student = None
 
+    
     context = {
         'student' : student
     }
 
     return render(request, 'logbook/logbook_settings.html', context)
 
+
 def logbook_catalog_view(request):
     if request.POST:
         return logbook_create_view(request)
 
+    # get student information
+    try:
+        student = Student.objects.get(user=request.user)
+    except Student.DoesNotExist:
+        student = None
 
+    if student is  None and request.user.is_authenticated:
+        return redirect("/logbook/logbook_settings")
+ 
     # get logbooks
-    student = Student.objects.get(user=request.user)
     logbooks = Logbook.objects.filter(student=student)
 
     context = {
