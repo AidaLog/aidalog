@@ -125,6 +125,7 @@ def logbook_catalog_view(request):
         metadata['id'] = logbook.id
         metadata['week_number'] = logbook.week_number
         metadata['from_date'] = logbook.from_date
+        metadata['week_activity'] = logbook.week_activity
 
         # get entries from this logbook
         try:
@@ -136,10 +137,11 @@ def logbook_catalog_view(request):
         except Entry.DoesNotExist:
             entries = None
 
-        
+        logbook_catalog.append(metadata)
+
 
     context = {
-        "logbooks": logbooks,
+        "logbooks": logbook_catalog,
         "logbook_count": len(logbooks)
     }
 
@@ -152,7 +154,27 @@ def logbook_detail_view(request, logbook_id):
     if login_pass is not True:
         return login_pass
 
-    return render(request, 'logbook/logbook_detail.html', {})
+    # get logbook
+    logbook = Logbook.objects.get(id=logbook_id)
+    metadata = {}
+
+    # get entries from this logbook
+    try:
+        entries = Entry.objects.filter(logbook=logbook)
+        metadata['entries'] = entries
+        metadata['entry_count'] = len(entries)
+        # percentage of entries completed out of 5
+        metadata['percentage'] = int((len(entries) / 5) * 100)
+    except Entry.DoesNotExist:
+        entries = None
+
+
+
+    context = {
+        'logbook': logbook,
+        'metadata': metadata
+    }
+    return render(request, 'logbook/logbook_detail.html', context)
 
 
 def logbook_create_view(request):

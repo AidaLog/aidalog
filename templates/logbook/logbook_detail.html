@@ -9,12 +9,10 @@
                 <div class="container">
                     <div class="row justify-content-between align-items-center">
                         <div class="col-lg-5 mb-5 mb-lg-0 ">
-                            <h1 class="text-white font-weight-light">Logbook - Week 1</h1>
+                            <h1 class="text-white font-weight-light">Logbook - Week {{logbook.week_number}}</h1>
                             <h4 class="text-warning font-weight-light">Main Operation Summary</h4>
-                            <p class="text-white mt-4">Designed to simplify and enhance your logbook management. Say
-                                goodbye to tedious and time-consuming manual entries. With our intuitive tool, you can
-                                effortlessly organize, track, and manage your logbook entries with ease.</p>
-                            <a href="{% url 'logbook_entry' '12' %}" class="btn btn-neutral mt-4 btn-sm">add entry</a>
+                            <p class="text-white mt-4">{{logbook.week_activity}}</p>
+                            <a href="{% url 'logbook_entry' logbook.id %}" class="btn btn-neutral mt-4 btn-sm">add entry</a>
                             <a href="#" class="btn btn-success mt-4 btn-sm">Print</a>
                         </div>
 
@@ -25,9 +23,9 @@
                                         <span class="progress-badge">Entries</span>
                                         <div class="progress">
                                             <div class="progress-bar progress-bar-warning" role="progressbar"
-                                                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                                style="width: 60%;">
-                                                <span class="progress-value">(3/5) - 60%</span>
+                                                aria-valuenow="{{ metadata.percentage }}" aria-valuemin="0" aria-valuemax="100"
+                                                style="width: {{ metadata.percentage }}%;">
+                                                <span class="progress-value">({{ metadata.entry_count }}/5) - {{ metadata.percentage }}%</span>
                                             </div>
                                         </div>
                                     </div>
@@ -48,10 +46,10 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="text-center">
-                                                        01/01/2020
+                                                        {{logbook.from_date}}
                                                     </td>
                                                     <td class="text-center">
-                                                        07/01/2020
+                                                        {{logbook.to_date}}
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -74,11 +72,14 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="text-center">
-                                                        01/01/2020 12:00
+                                                        "Not avaliable"
                                                     </td>
                                                     <td class="text-center">
-                                                        <span class="badge badge-success p-2 font-weight-light">approved
-                                                            🎉</span>
+                                                        {% if logbook.is_submitted %}
+                                                        <span class="badge badge-success p-2 font-weight-light">approved🎉</span>
+                                                        {% else %}
+                                                        <span class="badge badge-danger p-2 font-weight-light">pending 🕔</span>
+                                                        {% endif %}
                                                     </td>
                                                 </tr>
                                             </tbody>
