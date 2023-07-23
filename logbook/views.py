@@ -185,22 +185,14 @@ def logbook_create_view(request):
 
     # get student
     student = Student.objects.get(user=request.user)
-    # get training start date
-    start_date = student.practical_training_start_date
-    start_date_week_number = start_date.isocalendar()[1]
-    # Get the current date
-    current_date = datetime.now().date() 
-    current_week_number = current_date.isocalendar()[1] 
 
-    week_number = current_week_number - start_date_week_number
-    if week_number == 0: week_number = 1
-
-    from_date = current_date - timedelta(days=current_date.isocalendar()[2] - 1)  
-    to_date = from_date + timedelta(days=4)
-    # get passed form data
+    # get data  passed form data
     week_activity = request.POST['week_activity']
+    week_number = request.POST['week_number']
+    from_date = request.POST['from_date']
+    to_date = datetime.strptime(from_date, '%Y-%m-%d') + timedelta(days=4)
+    
     # if week activity is empty, set it to "Waiting for entries"
-    # remove spaces in week_activity
     week_activity_clean = week_activity.strip()
     if week_activity_clean == "" or week_activity is None:
         week_activity = "Waiting for entries"
@@ -217,7 +209,10 @@ def logbook_create_view(request):
 
 
 def delete_logbook(request, logbook_id):
-    pass
+    logbook = Logbook.objects.get(id=logbook_id, student=Student.objects.get(user=request.user))
+    if logbook is None: return
+    logbook.delete()
+    return redirect("/logbook/catalog")
 
 
 def create_entry_view(request, logbook_id):

@@ -57,11 +57,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <button class="btn btn-danger btn-round mt-4 float-left logdelete" data-toggle="modal" data-target="#myModal3" onclick="prepare({{logbook.id}})">dispose</button>
                                             <a href="{% url 'logbook_detail' logbook.id %}" class="btn btn-neutral btn-round mt-4 float-right">Open</a>
                                         </div>
                                     </div>
                                 </div>
-                                <hr class="bg-warning col-3">
+                                <hr class="bg-danger col-12">
                             </div>
                             <!-- end catalog item -->
                         {% endfor %}
@@ -85,14 +86,53 @@
                     </div>
                     <div class="modal-body">
                         <form role="form" method="post"> {% csrf_token %}
-                            <div class="form-group mb-3">
-                                <hr class="bg-primary col-6">
-                                <div class="input-group">
-                                    <textarea name="week_activity" class="form-control" placeholder="Short Summary for main operation for the week (optional). if you don't have anything right now leave empty"></textarea>
+                            <div class="card card-plain">
+                                <div class="card-body">
+                                    <div class="form-group mb-3">
+                                        <div class="input-group">
+                                            <input type="number" class="form-control border-info" name="week_number" placeholder="Week Number. Example 1, 2 ..."/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>From date</label>
+                                            <input type="date" id="datepicker"
+                                                class="form-control datepicker rounded border border-warning"
+                                                placeholder="Date" data-datepicker-color="Success" id="from_date" name="from_date">
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <hr class="bg-primary col-6">
+                                        <div class="input-group">
+                                            <textarea name="week_activity" class="form-control" placeholder="Short Summary for main operation for the week (optional). if you don't have anything right now leave empty"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary my-4">Create</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary my-4">Create</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  End Modal -->
+
+         <!-- Form Modal -->
+         <div class="modal fade modal-black" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">
+                        <div class="text-muted text-center ml-auto mr-auto">
+                            <h3 class="mb-0">You are about to delete your logbook. Are you sure?</h3>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" method="post"> {% csrf_token %}
+                            <div class="card card-plain">
+                                <div class="card-body">
+                                    <button type="button" class="btn btn-neutral my-4 float-left" onclick="clean()">No</button>
+                                    <button type="button" class="btn btn-danger my-4 flaot-right" onclick="dispose()">Yes, delete!</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -101,4 +141,20 @@
         </div>
         <!--  End Modal -->
     </div>
+
+<script>
+// delete btns
+var target_delete_id = null
+function prepare(redirect_id){
+    target_delete_id = redirect_id
+}
+function dispose(){
+    target = "/logbook/dispose/"+target_delete_id
+    clean()
+    window.location.href = target
+}
+function clean(){
+    target_delete_id = null
+}
+</script>
 {% endblock %}
