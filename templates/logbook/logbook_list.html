@@ -129,8 +129,15 @@
                         <form role="form" method="post"> {% csrf_token %}
                             <div class="card card-plain">
                                 <div class="card-body">
-                                    <button type="button" class="btn btn-neutral my-4 float-left" onclick="clean()">No</button>
-                                    <button type="button" class="btn btn-danger my-4 flaot-right" onclick="dispose()">Yes, delete!</button>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <button type="button" class="btn btn-neutral my-4 float-left" onclick="clean()">No</button>
+                                        </div>
+                                        <div class="col-6">
+                                            <button type="button" class="btn btn-danger my-4 flaot-right" onclick="dispose()">Yes, delete!</button>
+                                        </div>
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </form>

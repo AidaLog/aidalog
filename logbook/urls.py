@@ -10,5 +10,6 @@ urlpatterns = [
     path('catalog/<int:logbook_id>/entry/', create_entry_view, name='logbook_entry'),
     path('catalog/<int:logbook_id>/entry/<int:entry_id>/', update_entry_view, name='logbook_entry'),
     path('logbook_redirect_login/', logbook_redirect_login, name='logbook_redirect_login'),
-    path('logbook_logout_redirect/', logbook_logout_redirect, name='logbook_logout_redirect')
+    path('logbook_logout_redirect/', logbook_logout_redirect, name='logbook_logout_redirect'),
+    path('aidalog/<int:logbook_id>/', generate_logbook, name='aidalog')
 ]

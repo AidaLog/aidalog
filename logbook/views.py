@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from home.views import process_login, logout
 from .models import *
 from datetime import datetime, timedelta
+from docs.create_document import create_practical_training_log_book as aidalog
 
 def is_allowed(request):
     if request.user.is_authenticated:
@@ -318,3 +319,36 @@ def signup_view(request):
                 return success # redirect to profile setup
 
     return render(request, 'home/signup.html', context)
+
+
+
+def generate_logbook(request, logbook_id):
+    student = Student.objects.get(user=request.user)
+    logbook = Logbook.objects.get(student=student, id=logbook_id)
+
+    # collect activities
+    activity_dict = {}
+    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+    for day in days:
+        entry = None
+        try:
+            entry = Entry.objects.get(logbook=logbook, day=day)
+            activity_dict[day] = {
+            'date': entry.date,
+            'activity': entry.activity}
+        except:
+            activity_dict[day] = {
+            'date': entry.date,
+            'activity': ""}
+
+        
+    
+    department = student.department_name
+    student_name = f"{student.user.last_name}, {student.user.first_name}"
+    reg_no = student.registration_number 
+    company = student.pt_location
+    week_no = logbook.week_number 
+    from_date = logbook.from_date
+    to_date = logbook.to_date
+    aidalog(department, student_name, reg_no, company, week_no, from_date, to_date, activity_dict)
+    return logbook_detail_view(request, logbook_id)

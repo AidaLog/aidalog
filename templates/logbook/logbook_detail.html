@@ -7,14 +7,27 @@
         <div class="main">
             <div class="section">
                 <div class="container">
+                    {% if request.aida %}
+                        <div class="alert alert-primary alert-with-icon">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="tim-icons icon-simple-remove"></i>
+                            </button>
+                            <span data-notify="icon" class="tim-icons icon-bell-55"></span>
+                            <span>
+                            <b> Logbook File Created, you will recieve a download link shortly </span>
+                        </div>
+                    {% endif %}
                     <div class="row justify-content-between align-items-center">
                         <div class="col-lg-5 mb-5 mb-lg-0 ">
                             <h1 class="text-white font-weight-light">Logbook - Week {{logbook.week_number}}</h1>
                             <h4 class="text-warning font-weight-light">Main Operation Summary</h4>
                             <p class="text-white mt-4">{{logbook.week_activity}}</p>
+                            
+                            {% if metadata.entry_count == 0 %}
                             <a href="#" class="btn btn-neutral mt-4 btn-sm">Batch Entries</a>
+                            {% endif %}
                             <a href="{% url 'logbook_entry' logbook.id %}" class="btn btn-neutral mt-4 btn-sm">Add entry</a>
-                            <a href="#" class="btn btn-success mt-4 btn-sm">Print</a>
+                            <a href="{% url 'aidalog' logbook.id %}" class="btn btn-success mt-4 btn-sm">Print</a>
                         </div>
 
                         <div class="col-lg-5 mb-5 mb-lg-0">

@@ -125,44 +125,10 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     diagram_paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
     # Save the Document
-    doc.save('docs/Practical_Training_Log_Book.docx')
+    filepath = f"docs/{reg_no}-week-{week_no}-practical-training-logbook.docx"
+    doc.save(filepath)
 
-if __name__ == '__main__':
 
-    data_dictionary = {
-        'Monday':{
-            'date': '24/04/2023',
-            'activity': 'Lorem Impsum template activity for logging daily activity, i want to put a date here but this is a dictionary that i am going to store data here'
-        },
-        'Tuesday':{
-            'date': '24/04/2023',
-            'activity': 'Lorem Impsum template activity for logging daily activity, i want to put a date here but this is a dictionary that i am going to store data here'
-        },
-        'Wednesday':{
-            'date': '24/04/2023',
-            'activity': 'Lorem Impsum template activity for logging daily activity, i want to put a date here but this is a dictionary that i am going to store data here'
-        },
-        'Thursday':{
-            'date': '24/04/2023',
-            'activity': 'Lorem Impsum template activity for logging daily activity, i want to put a date here but this is a dictionary that i am going to store data here'
-        },
-        'Friday':{
-            'date': '24/04/2023',
-            'activity': 'Lorem Impsum template activity for logging daily activity, i want to put a date here but this is a dictionary that i am going to store data here'
-        }
-    }
-
-    
-    department = "COMPUTER ENGINEERING" 
-    student_name = "GULAY, EDGAR EDWARD" 
-    reg_no = "2021-04-02100" 
-    company = "UDICTI"
-    week_no = 1 
-    from_date = "17/07/2021"
-    to_date = "23/08/2021"
-
-    # create_practical_training_log_book()
-    create_practical_training_log_book(department, student_name, reg_no, company, week_no, from_date, to_date, data_dictionary)
 
 
 # create deliver make it sustainable
