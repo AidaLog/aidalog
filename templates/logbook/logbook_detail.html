@@ -12,7 +12,8 @@
                             <h1 class="text-white font-weight-light">Logbook - Week {{logbook.week_number}}</h1>
                             <h4 class="text-warning font-weight-light">Main Operation Summary</h4>
                             <p class="text-white mt-4">{{logbook.week_activity}}</p>
-                            <a href="{% url 'logbook_entry' logbook.id %}" class="btn btn-neutral mt-4 btn-sm">add entry</a>
+                            <a href="#" class="btn btn-neutral mt-4 btn-sm">Batch Entries</a>
+                            <a href="{% url 'logbook_entry' logbook.id %}" class="btn btn-neutral mt-4 btn-sm">Add entry</a>
                             <a href="#" class="btn btn-success mt-4 btn-sm">Print</a>
                         </div>
 
@@ -102,186 +103,48 @@
                             </h1>
                         </div>
                     </div>
+                    {% if metadata.entry_count == 0 %}
+                        <div class="alert alert-success alert-with-icon">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="tim-icons icon-simple-remove"></i>
+                            </button>
+                            <span data-notify="icon" class="tim-icons icon-bell-55"></span>
+                            <span>
+                            <b> New Logbook </b> Create weekentries from the button above </span>
+                        </div>
+                    {% else %}
+                        {% for entry in metadata.entries %}
+                            <hr class="bg-primary p-1">
+                            <!-- start Entry -->
+                            <div class="row">
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="card">
+                                        <div class="card-body justify-content-center align-items-center">
+                                            <!-- Entry day and date -->
+                                            <h4 class="font-weight-light mb-3">{{entry.day}}</h4>
+                                            <p class="font-weight-light display-6 text-primary">{{entry.date}}</p>
+                                            <!-- end table day date -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8 col-lg-9">
+                                    <div class="card">
+                                        <!-- Entry content -->
+                                        <div class="card-body">
+                                            <p>
+                                                {{entry.activity}}
+                                            </p>
+                                            <a href="{% url 'logbook_entry' logbook.id entry.id %}" class="btn btn-neutral btn-round mt-2 btn-sm float-right" style="font-size: 12px;">Update</a>
+                                        </div>
+                                        <!-- end entry content -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end entry -->
+                            {% endfor %}
+                    {% endif %}
                     
-                    
-                    {% for entry in metadata.entries %}
-                    <hr class="bg-primary p-1">
-                    <!-- monday Entry -->
-                    <div class="row">
-                        <div class="col-md-4 col-lg-3">
-                            <div class="card">
-                                <div class="card-body justify-content-center align-items-center">
-                                    <!-- Entry day and date -->
-                                    <h4 class="font-weight-light mb-3">{{entry.day}}</h4>
-                                    <p class="font-weight-light display-6 text-primary">{{entry.date}}</p>
-                                    <!-- end table day date -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-8 col-lg-9">
-                            <div class="card">
-                                <!-- Entry content -->
-                                <div class="card-body">
-                                    <p>
-                                        {{entry.activity}}
-                                    </p>
-                                    <a href="{% url 'logbook_entry' logbook.id entry.id %}" class="btn btn-neutral btn-round mt-2 btn-sm float-right" style="font-size: 12px;">Update</a>
-                                </div>
-                                <!-- end entry content -->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end monday entry -->
-                    {% endfor %}
-
-                    {% comment %}                         
-                    <hr class="bg-primary p-1">
-                    <!-- monday Entry -->
-                    <div class="row">
-                        <div class="col-md-4 col-lg-3">
-                            <div class="card">
-                                <div class="card-body justify-content-center align-items-center">
-                                    <!-- Entry day and date -->
-                                    <h4 class="font-weight-light mb-3">Monday</h4>
-                                    <p class="font-weight-light display-6 text-primary">12/08/2023</p>
-                                    <!-- end table day date -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-8 col-lg-9">
-                            <div class="card">
-                                <!-- Entry content -->
-                                <div class="card-body">
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis aliquam maxime
-                                        quisquam. Quia deserunt sequi cupiditate tempora, a laborum quos corporis, ipsam
-                                        itaque eveniet voluptatum vitae aperiam consectetur earum aliquid.
-                                    </p>
-                                    <a href="{% url 'logbook_entry' '12' '1' %}" class="btn btn-neutral btn-round mt-2 btn-sm float-right" style="font-size: 12px;">Update</a>
-                                </div>
-                                <!-- end entry content -->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end monday entry -->
-
-                    <hr class="bg-success p-1">
-                    <!-- tuesday Entry -->
-                    <div class="row">
-                        <div class="col-md-4 col-lg-3">
-                            <div class="card">
-                                <div class="card-body justify-content-center align-items-center">
-                                    <!-- Entry day and date -->
-                                    <h4 class="font-weight-light mb-3">Tuesday</h4>
-                                    <p class="font-weight-light display-6 text-primary">12/08/2023</p>
-                                    <!-- end table day date -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-8 col-lg-9">
-                            <div class="card">
-                                <!-- Entry content -->
-                                <div class="card-body">
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis aliquam maxime
-                                        quisquam. Quia deserunt sequi cupiditate tempora, a laborum quos corporis, ipsam
-                                        itaque eveniet voluptatum vitae aperiam consectetur earum aliquid.
-                                    </p>
-                                </div>
-                                <!-- end entry content -->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end tuesday entry -->
-
-                    <hr class="bg-info p-1">
-                    <!-- wednesday Entry -->
-                    <div class="row">
-                        <div class="col-md-4 col-lg-3">
-                            <div class="card">
-                                <div class="card-body justify-content-center align-items-center">
-                                    <!-- Entry day and date -->
-                                    <h4 class="font-weight-light mb-3">Wednesday</h4>
-                                    <p class="font-weight-light display-6 text-primary">12/08/2023</p>
-                                    <!-- end table day date -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-8 col-lg-9">
-                            <div class="card">
-                                <!-- Entry content -->
-                                <div class="card-body">
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis aliquam maxime
-                                        quisquam. Quia deserunt sequi cupiditate tempora, a laborum quos corporis, ipsam
-                                        itaque eveniet voluptatum vitae aperiam consectetur earum aliquid.
-                                    </p>
-                                </div>
-                                <!-- end entry content -->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end wednesday entry -->
-
-                    <hr class="bg-warning p-1">
-                    <!-- thursday Entry -->
-                    <div class="row">
-                        <div class="col-md-4 col-lg-3">
-                            <div class="card">
-                                <div class="card-body justify-content-center align-items-center">
-                                    <!-- Entry day and date -->
-                                    <h4 class="font-weight-light mb-3">Thursday</h4>
-                                    <p class="font-weight-light display-6 text-primary">12/08/2023</p>
-                                    <!-- end table day date -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-8 col-lg-9">
-                            <div class="card">
-                                <!-- Entry content -->
-                                <div class="card-body">
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis aliquam maxime
-                                        quisquam. Quia deserunt sequi cupiditate tempora, a laborum quos corporis, ipsam
-                                        itaque eveniet voluptatum vitae aperiam consectetur earum aliquid.
-                                    </p>
-                                </div>
-                                <!-- end entry content -->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end thursday entry -->
-
-                    <hr class="bg-light p-1">
-                    <!-- friday Entry -->
-                    <div class="row">
-                        <div class="col-md-4 col-lg-3">
-                            <div class="card">
-                                <div class="card-body justify-content-center align-items-center">
-                                    <!-- Entry day and date -->
-                                    <h4 class="font-weight-light mb-3">Friday</h4>
-                                    <p class="font-weight-light display-6 text-primary">12/08/2023</p>
-                                    <!-- end table day date -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-8 col-lg-9">
-                            <div class="card">
-                                <!-- Entry content -->
-                                <div class="card-body">
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis aliquam maxime
-                                        quisquam. Quia deserunt sequi cupiditate tempora, a laborum quos corporis, ipsam
-                                        itaque eveniet voluptatum vitae aperiam consectetur earum aliquid.
-                                    </p>
-                                </div>
-                                <!-- end entry content -->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end friday entry -->
-                     {% endcomment %}
                 </div>
             </div>
         </div>

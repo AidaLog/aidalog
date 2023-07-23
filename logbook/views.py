@@ -155,7 +155,7 @@ def logbook_detail_view(request, logbook_id):
         return login_pass
 
     # get logbook
-    logbook = Logbook.objects.get(id=logbook_id)
+    logbook = Logbook.objects.get(id=logbook_id, student=Student.objects.get(user=request.user))
     metadata = {}
 
     # get entries from this logbook
@@ -191,7 +191,7 @@ def logbook_create_view(request):
     week_number = request.POST['week_number']
     from_date = request.POST['from_date']
     to_date = datetime.strptime(from_date, '%Y-%m-%d') + timedelta(days=4)
-    
+
     # if week activity is empty, set it to "Waiting for entries"
     week_activity_clean = week_activity.strip()
     if week_activity_clean == "" or week_activity is None:
