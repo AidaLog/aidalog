@@ -24,7 +24,7 @@
                             <p class="text-white mt-4">{{logbook.week_activity}}</p>
                             
                             {% if metadata.entry_count == 0 %}
-                            <a href="#" class="btn btn-neutral mt-4 btn-sm">Batch Entries</a>
+                            <a href="{% url 'logbook_batch' logbook.id %}" class="btn btn-neutral mt-4 btn-sm">Batch Entries</a>
                             {% endif %}
                             <a href="{% url 'logbook_entry' logbook.id %}" class="btn btn-neutral mt-4 btn-sm">Add entry</a>
                             <a href="{% url 'aidalog' logbook.id %}" class="btn btn-success mt-4 btn-sm">Print</a>

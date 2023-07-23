@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from home.views import process_login, logout
 from .models import *
 from datetime import datetime, timedelta
 from docs.create_document import create_practical_training_log_book as aidalog
+import os
 
 def is_allowed(request):
     if request.user.is_authenticated:
@@ -170,7 +171,6 @@ def logbook_detail_view(request, logbook_id):
         entries = None
 
 
-
     context = {
         'logbook': logbook,
         'metadata': metadata
@@ -227,8 +227,36 @@ def create_entry_view(request, logbook_id):
     if request.POST:
         date_input = request.POST['date_input']
         activity_summary = request.POST['activity_summary']
+        # constraints. if date is not within logbook from_date and to_date, return error
+        date_input = datetime.strptime(date_input, '%Y-%m-%d')
+        logbook_from_date = datetime.combine(logbook.from_date, datetime.min.time())
+        logbook_to_date = datetime.combine(logbook.to_date, datetime.max.time())
+
+        if date_input < logbook_from_date or date_input > logbook_to_date:
+            context = {
+                'logbook': logbook,
+                'form_errors': "Date must be within logbook start and end date."
+            }
+            return render(request, 'logbook/logbook_entry.html', context)
+
+        # if date already exists, redirect to update with an error message and new content
+        try:
+            entry = Entry.objects.get(logbook=logbook, date=date_input)
+            return redirect("/logbook/catalog/" + str(logbook_id) + "/entry/" + str(entry.id))
+        except Entry.DoesNotExist:
+            pass
+
+        # if entries exceed 5, return error
+        entries = Entry.objects.filter(logbook=logbook)
+        if len(entries) >= 5:
+            context = {
+                'logbook': logbook,
+                'form_errors': "Entries for this logbook have exceeded 5 that is (Monday to Friday)"
+            }
+            return render(request, 'logbook/logbook_entry.html', context)
 
         # get day name from date input
+        date_input = request.POST['date_input']
         day_name = datetime.strptime(date_input, '%Y-%m-%d').strftime('%A')
 
         # create new entry
@@ -244,6 +272,29 @@ def create_entry_view(request, logbook_id):
     }
     return render(request, 'logbook/logbook_entry.html', context)
 
+
+def create_batch_entries(request, logbook_id):
+    # check if user is logged in
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        return login_pass
+
+    logbook = Logbook.objects.get(id=logbook_id)
+    # create entries from monday to friday with empty activity from logbook from date
+    from_date = logbook.from_date
+    to_date = logbook.to_date
+    delta = to_date - from_date
+
+    for i in range(delta.days + 1):
+        date = from_date + timedelta(days=i)
+        day_name = date.strftime('%A')
+        Entry.objects.create(
+            logbook=logbook,
+            day=day_name,
+            date=date,
+            activity="** click update to edit **")
+
+    return redirect("/logbook/catalog/" + str(logbook_id))
 
 def update_entry_view(request, logbook_id, entry_id):
     # check if user is logged in
@@ -350,5 +401,16 @@ def generate_logbook(request, logbook_id):
     week_no = logbook.week_number 
     from_date = logbook.from_date
     to_date = logbook.to_date
-    aidalog(department, student_name, reg_no, company, week_no, from_date, to_date, activity_dict)
-    return logbook_detail_view(request, logbook_id)
+    generated_document = aidalog(department, student_name, reg_no, company, week_no, from_date, to_date, activity_dict)
+
+    return download_generated_docx(request, generated_document)
+
+
+def download_generated_docx(request, generated_file_path):
+    file_path = generated_file_path
+    file_name = os.path.basename(file_path)
+    
+    with open(file_path, 'rb') as file:
+        response = HttpResponse(file.read(), content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+        return response

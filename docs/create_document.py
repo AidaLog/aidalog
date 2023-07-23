@@ -2,6 +2,7 @@ from docx import Document
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.table import WD_ALIGN_VERTICAL
 from docx.shared import Inches, Pt
+from main.settings import MEDIA_ROOT
 
 def create_practical_training_log_book(department, student_name, reg_no, company, week_no, from_date, to_date, data_dictionary):
     """
@@ -24,7 +25,8 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     title.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
     # College and Department
-    doc.add_heading('COLLEGE OF INFORMATION AND COMMUNICATION TECHNOLOGIES', level=2)
+    college_heading = doc.add_heading('COLLEGE OF INFORMATION AND COMMUNICATION TECHNOLOGIES', level=2)
+    college_heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
     department = doc.add_heading(f'DEPARTMENT OF {department}', level=2)
     department.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
@@ -37,8 +39,8 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     student_table.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
     # Set column widths (50% for each column)
-    student_table.columns[0].width = Inches(4)
-    student_table.columns[1].width = Inches(2)
+    student_table.columns[0].width = Inches(5)
+    student_table.columns[1].width = Inches(1)
 
     # Add text to the cells
     cell_0_0 = student_table.cell(0, 0)
@@ -72,7 +74,6 @@ def create_practical_training_log_book(department, student_name, reg_no, company
 
     # Days and Activities
     days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-    date = '17/07/2023'  # Replace with the actual date
 
     # Create a table for Days and Activities
     table = doc.add_table(rows=6, cols=2)
@@ -125,10 +126,7 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     diagram_paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
     # Save the Document
-    filepath = f"docs/{reg_no}-week-{week_no}-practical-training-logbook.docx"
-    doc.save(filepath)
+    filepath = f"{MEDIA_ROOT}/docs/{reg_no}-week-{week_no}-practical-training-logbook.docx"
+    doc.save(filepath) 
 
-
-
-
-# create deliver make it sustainable
+    return filepath

@@ -8,6 +8,16 @@
         <div class="main">
             <div class="section">
                 <div class="container">
+                    {% if form_errors %}
+                        <div class="alert alert-danger alert-with-icon">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="tim-icons icon-simple-remove"></i>
+                            </button>
+                            <span data-notify="icon" class="tim-icons icon-bell-55"></span>
+                            <span>
+                            <b> {{form_errors}} </span>
+                        </div>
+                    {% endif %}
                     <form class="row justify-content-between" method="post"> {% csrf_token %}
 
                         <div class="col-lg-6">
@@ -30,7 +40,7 @@
                                             <div class="form-group">
                                                 <label>Activity Summary</label>
                                                 <textarea class="form-control rounded border border-primary" value="{{entry.activity}}"
-                                                    name="activity_summary" id="activity_summary" placeholder="Day activity details">{{entry.activity}}</textarea>
+                                                    name="activity_summary" id="activity_summary" placeholder="Day activity details">{% if new_entry %}{{new_entry}}{% else %}{{entry.activity}}{% endif %}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -50,20 +60,16 @@
                                     {% endif %})</h2>
                                     <h4 class="text-light">Summarized Entry</h4>
                                     <p class="text-white mt-4" id="summary">
-                                        Keep your account information up to date
-                                        effortlessly, ensuring
-                                        accurate communication and personalized experiences. Simply make the desired
-                                        changes,
-                                        click save, and enjoy a hassle-free account management experience.
+                                        Input the date using the provided calendar or by typing it in the correct format. Next, Describe your activities concisely and specifically. Optionally, add any additional information in that fields like "Notes" or "Comments." Review your input, and once satisfied, click "Save"  to save the entry. 
                                     </p>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <span class="btn btn-neutral btn-sm float-left" rel="tooltip"
+                                                <span class="btn btn-neutral btn-sm float-left fade" rel="tooltip"
                                                     data-original-title="Regenerate summary"
                                                     data-placement="bottom">Regenerate</span>
 
-                                                <span type="submit" class="btn btn-default btn-sm float-left"
+                                                <span type="submit" class="btn btn-default btn-sm float-left fade"
                                                     rel="tooltip" data-original-title="Use original content"
                                                     data-placement="bottom">original</span>
 
