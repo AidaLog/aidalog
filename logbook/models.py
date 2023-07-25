@@ -10,6 +10,7 @@ class Student(models.Model):
     year_of_study = models.IntegerField()
     pt_location = models.CharField(max_length=255)
     practical_training_start_date = models.DateField(blank=True, null=True)
+    logbook_print_count = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'

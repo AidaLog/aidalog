@@ -57,7 +57,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-danger btn-round mt-4 float-left logdelete" data-toggle="modal" data-target="#myModal3" onclick="prepare({{logbook.id}})">dispose</button>
+                                            <span class="text-danger btn-round mt-4 float-left logdelete" data-toggle="modal" data-target="#myModal3" onclick="prepare({{logbook.id}})"> <i class="fa fa-trash"></i></span>
                                             <a href="{% url 'logbook_detail' logbook.id %}" class="btn btn-neutral btn-round mt-4 float-right">Open</a>
                                         </div>
                                     </div>
@@ -161,6 +161,7 @@ function dispose(){
 }
 function clean(){
     target_delete_id = null
+    document.getElementById("myModal3").classList.remove("show")
 }
 </script>
 {% endblock %}
