@@ -87,6 +87,7 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     company_cell.text = f'COMPANY/INSTITUTION: {company}'
     company_cell.merge(student_table.cell(1, 1)) 
     doc.add_paragraph()
+    
     week_log_table = doc.add_table(rows=1, cols=3)
     week_log_table.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
     # Week number, from date, and to date cells
