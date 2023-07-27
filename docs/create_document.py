@@ -78,7 +78,7 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     cell_0_0 = student_table.cell(0, 0)
     cell_0_1 = student_table.cell(0, 1)
 
-    cell_0_0.text = f'STUDENTS NAME: {student_name}'
+    cell_0_0.text = f'STUDENT NAME: {student_name}'
     cell_0_1.text = f'REG. NO: {reg_no}'
 
     # add another row with a single column for company name
