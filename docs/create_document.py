@@ -86,7 +86,7 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     company_cell = company_row.cells[0]
     company_cell.text = f'COMPANY/INSTITUTION: {company}'
     company_cell.merge(student_table.cell(1, 1)) 
-
+    doc.add_paragraph()
     week_log_table = doc.add_table(rows=1, cols=3)
     week_log_table.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
     # Week number, from date, and to date cells
@@ -113,7 +113,7 @@ def create_practical_training_log_book(department, student_name, reg_no, company
 
                 
     # add an empty paragraph with 2 new line breaks
-    doc.add_paragraph('\n')
+    doc.add_paragraph()
 
     # Days and Activities
     days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
@@ -164,6 +164,7 @@ def create_practical_training_log_book(department, student_name, reg_no, company
         table.cell(i + 1, 0).paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
         table.cell(i + 1, 1).text = data_dictionary[day]['activity']
 
+    doc.add_paragraph()
 
     # Details of the Main Job of the Week
     doc.add_heading('Details Of the Main Job of the Week', level=2)
