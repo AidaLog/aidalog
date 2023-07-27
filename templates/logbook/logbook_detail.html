@@ -39,7 +39,7 @@
                                             <div class="progress-bar progress-bar-warning" role="progressbar"
                                                 aria-valuenow="{{ metadata.percentage }}" aria-valuemin="0" aria-valuemax="100"
                                                 style="width: {{ metadata.percentage }}%;">
-                                                <span class="progress-value">({{ metadata.entry_count }}/5) - {{ metadata.percentage }}%</span>
+                                                <span class="progress-value">({{ metadata.updated_entries }}/5) - {{ metadata.percentage }}%</span>
                                             </div>
                                         </div>
                                     </div>
@@ -79,7 +79,7 @@
                                                         Next Reminder
                                                     </th>
                                                     <th class="text-center">
-                                                        Is Approved
+                                                        Print Status
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -89,10 +89,10 @@
                                                         "Not avaliable"
                                                     </td>
                                                     <td class="text-center">
-                                                        {% if logbook.is_submitted %}
-                                                        <span class="badge badge-success p-2 font-weight-light">approved🎉</span>
+                                                        {% if metadata.print_state %}
+                                                        <span class="badge badge-success p-2 font-weight-light">Ready to Print🎉</span>
                                                         {% else %}
-                                                        <span class="badge badge-danger p-2 font-weight-light">pending 🕔</span>
+                                                        <span class="badge badge-danger p-2 font-weight-light">pending entry updates🕔</span>
                                                         {% endif %}
                                                     </td>
                                                 </tr>

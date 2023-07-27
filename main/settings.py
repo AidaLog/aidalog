@@ -33,9 +33,6 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    '192.168.35.14',
-    '192.168.137.1',
-    'ner.localhost',
     'gulay.pythonanywhere.com',
     'ner.gulay.pythonanywhere.com'
     ]

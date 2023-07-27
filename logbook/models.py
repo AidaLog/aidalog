@@ -21,7 +21,7 @@ class Logbook(models.Model):
     week_number = models.IntegerField()
     from_date = models.DateField()
     to_date = models.DateField()
-    is_submitted = models.BooleanField(default=False)
+    is_submitted = models.BooleanField(default=False, verbose_name="All Entries updated ?")
     week_activity = models.TextField(blank=True)
     def __str__(self):
         return f'Logbook week:{self.week_number}'
@@ -34,6 +34,7 @@ class Entry(models.Model):
     activity = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_updated = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.day} - {self.date}'

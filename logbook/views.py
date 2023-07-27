@@ -163,10 +163,18 @@ def logbook_detail_view(request, logbook_id):
     # get entries from this logbook
     try:
         entries = Entry.objects.filter(logbook=logbook)
+        updated_entries = Entry.objects.filter(logbook=logbook, is_updated=True)
+        updated_entries = len(updated_entries)
+
         metadata['entries'] = entries
         metadata['entry_count'] = len(entries)
+        metadata['updated_entries'] = updated_entries
+        
+        print_state = False
+        if updated_entries == 5: print_state=True
         # percentage of entries completed out of 5
-        metadata['percentage'] = int((len(entries) / 5) * 100)
+        metadata['percentage'] = int((updated_entries / 5) * 100)
+        metadata['print_state'] = print_state
     except Entry.DoesNotExist:
         entries = None
 
@@ -264,7 +272,8 @@ def create_entry_view(request, logbook_id):
             logbook=logbook,
             day=day_name,
             date=date_input,
-            activity=activity_summary)
+            activity=activity_summary,
+            is_updated=True)
 
         return redirect("/logbook/catalog/" + str(logbook_id))
     context = {
@@ -316,6 +325,7 @@ def update_entry_view(request, logbook_id, entry_id):
         entry.day=day_name
         entry.date=date_input
         entry.activity=activity_summary
+        entry.is_updated=True
         entry.save()
 
         return redirect("/logbook/catalog/" + str(logbook_id))

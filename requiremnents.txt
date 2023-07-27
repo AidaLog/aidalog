@@ -1,1 +1,7 @@
 python-docx
+mimetypes
+django_hosts
+tensorflow
+numpy
+networkx
+matplotlib
