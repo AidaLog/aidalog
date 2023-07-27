@@ -164,7 +164,6 @@ def create_practical_training_log_book(department, student_name, reg_no, company
         table.cell(i + 1, 0).paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
         table.cell(i + 1, 1).text = data_dictionary[day]['activity']
 
-    doc.add_page_break() # page break
 
     # Details of the Main Job of the Week
     doc.add_heading('Details Of the Main Job of the Week', level=2)
