@@ -166,10 +166,9 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     machinery_heading = doc.add_heading('Machinery/Tools Used', level=3)
 
     # Add a table for machinery/tools used
-    machinery_table = doc.add_table(rows=7, cols=2)
-    # the irst row is for column headers (Operation and Machinery/Tools Used)
-    machinery_table.autofit = False
+    machinery_table = doc.add_table(rows=8, cols=2)  # Add 1 row for the header
     machinery_table.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    machinery_table.autofit = False
     machinery_table.columns[0].width = Inches(3)
     machinery_table.columns[1].width = Inches(3)
 
@@ -177,15 +176,30 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     for cell in machinery_table._cells:
         set_cell_borders(cell)
 
-    # Add the column headers
-    machinery_table.cell(0, 0).text = 'Operation: '
-    machinery_table.cell(0, 1).text = 'Machinery/Tools Used'
-    for row in machinery_table.rows:
+    # Add the column headers (single-row header)
+    cell_0_0 = machinery_table.cell(0, 0)
+    cell_0_1 = machinery_table.cell(0, 1)
+
+    cell_0_0.text = 'Operation: '
+    cell_0_1.text = 'Machinery/Tools Used'
+
+    # Make the text in the header cells bold
+    for cell in [cell_0_0, cell_0_1]:
+        for paragraph in cell.paragraphs:
+            for run in paragraph.runs:
+                run.bold = True
+
+    # Align the text in the header cells at the center
+    cell_0_0.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    cell_0_1.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+
+    # Populate the rest of the table with empty cells
+    for row in machinery_table.rows[1:]:
         for cell in row.cells:
             cell.text = ' '
 
-    # Comments from Industrial Supervisor
-    # table for comments from industrial supervisor, 1 row, 2 columns coments and signature
+
+    # table for comments from industrial supervisor, 1 row, 2 columns comments and signature
     comments_table = doc.add_table(rows=1, cols=2)
     comments_table.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
     comments_table.columns[0].width = Inches(2)
