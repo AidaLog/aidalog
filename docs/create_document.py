@@ -42,6 +42,12 @@ def create_practical_training_log_book(department, student_name, reg_no, company
         }
     }
     """
+    # capitalize 'department, student_name, company'
+    department = department.upper()
+    student_name = student_name.upper()
+    company = company.upper()
+
+
     # Create a new Document
     doc = Document()
 
@@ -97,9 +103,9 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     to_date_cell.paragraphs[0].paragraph_format.space_before = Inches(0.1)
 
     # set cell widths 30% each
-    week_log_table.columns[0].width = Inches(1.5)
-    week_log_table.columns[1].width = Inches(2.25)
-    week_log_table.columns[2].width = Inches(2.25)
+    week_log_table.columns[0].width = Inches(1)
+    week_log_table.columns[1].width = Inches(2.5)
+    week_log_table.columns[2].width = Inches(2.5)
     
     # Add borders to the table cells
     for cell in week_log_table._cells:
@@ -163,14 +169,11 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     # Details of the Main Job of the Week
     doc.add_heading('Details Of the Main Job of the Week', level=2)
 
-    # Operation and Machinery/Tools Used
-    machinery_heading = doc.add_heading('Machinery/Tools Used', level=3)
 
     # Add a table for machinery/tools used
-    machinery_table = doc.add_table(rows=7, cols=2)
-    # the irst row is for column headers (Operation and Machinery/Tools Used)
-    machinery_table.autofit = False
+    machinery_table = doc.add_table(rows=8, cols=2)  # Add 1 row for the header
     machinery_table.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    machinery_table.autofit = False
     machinery_table.columns[0].width = Inches(3)
     machinery_table.columns[1].width = Inches(3)
 
@@ -178,15 +181,30 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     for cell in machinery_table._cells:
         set_cell_borders(cell)
 
-    # Add the column headers
-    machinery_table.cell(0, 0).text = 'Operation: '
-    machinery_table.cell(0, 1).text = 'Machinery/Tools Used'
-    for row in machinery_table.rows:
+    # Add the column headers (single-row header)
+    cell_0_0 = machinery_table.cell(0, 0)
+    cell_0_1 = machinery_table.cell(0, 1)
+
+    cell_0_0.text = 'Operation: '
+    cell_0_1.text = 'Machinery/Tools Used'
+
+    # Make the text in the header cells bold
+    for cell in [cell_0_0, cell_0_1]:
+        for paragraph in cell.paragraphs:
+            for run in paragraph.runs:
+                run.bold = True
+
+    # Align the text in the header cells at the center
+    cell_0_0.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+    cell_0_1.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+
+    # Populate the rest of the table with empty cells
+    for row in machinery_table.rows[1:]:
         for cell in row.cells:
             cell.text = ' '
 
-    # Comments from Industrial Supervisor
-    # table for comments from industrial supervisor, 1 row, 2 columns coments and signature
+
+    # table for comments from industrial supervisor, 1 row, 2 columns comments and signature
     comments_table = doc.add_table(rows=1, cols=2)
     comments_table.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
     comments_table.columns[0].width = Inches(2)
@@ -217,10 +235,41 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     doc.add_page_break() #page break
 
     # Detailed Diagram of the Main Job
-    doc.add_heading('Detailed Diagram of the Main Job', level=2)
     diagram_paragraph = doc.add_paragraph()
     diagram_paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-    
+
+    # table with 3 rows and 4 columns for the diagram
+    # first row is for the title 'Detailed Diagram of the Main Job' aligned center
+    # second row is for the diagram image with all 4 columns merged
+    # third row is for the 'drawn by', 'date', 'checked by', 'date' aligned left
+    diagram_table = doc.add_table(rows=3, cols=4)
+    diagram_table.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    diagram_table.autofit = False
+    diagram_table.columns[0].width = Inches(1.5)
+    diagram_table.columns[1].width = Inches(1.5)
+    diagram_table.columns[2].width = Inches(1.5)
+    diagram_table.columns[3].width = Inches(1.5)
+
+    # Add borders to the table cells
+    for cell in diagram_table._cells:
+        set_cell_borders(cell)
+
+    # Add the column headers
+    diagram_table.cell(0, 0).text = 'Detailed Diagram of the Main Job'
+    diagram_table.cell(0, 0).merge(diagram_table.cell(0, 3))
+    diagram_table.cell(1, 0).merge(diagram_table.cell(1, 3))
+    diagram_table.cell(2, 0).text = 'Drawn by: \n\n........................................'
+    diagram_table.cell(2, 1).text = 'Date: \n\n........................................'
+    diagram_table.cell(2, 2).text = 'Checked by: \n\n........................................'
+    diagram_table.cell(2, 3).text = 'Date: \n\n........................................'
+
+    # Add the diagram image
+    diagram_table.cell(1, 0).merge(diagram_table.cell(1, 3))
+    diagram_table.cell(1, 0).paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    diagram_table.cell(1, 0).paragraphs[0].add_run().add_picture(f"{MEDIA_ROOT}/aidaLog.png", width=Inches(6))
+
+
+
     # Save the Document
     filepath = f"{MEDIA_ROOT}/docs/{reg_no}-week-{week_no}-practical-training-logbook.docx"
     doc.save(filepath) 
