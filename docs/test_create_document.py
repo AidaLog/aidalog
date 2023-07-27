@@ -250,7 +250,7 @@ data_dictionary = {
     },
     'Wednesday': {
         'date': '2023-07-03',
-        'activity': 'Researched new technologies'
+        'activity': 'Researched new technologies'   
     },
     'Thursday': {
         'date': '2023-07-04',

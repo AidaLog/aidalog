@@ -389,7 +389,7 @@ def generate_logbook(request, logbook_id):
             'activity': entry.activity}
         except:
             activity_dict[day] = {
-            'date': entry.date,
+            'date': "dd/mm/yyyy",
             'activity': ""}
 
         
