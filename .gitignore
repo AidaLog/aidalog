@@ -1,2 +1,5 @@
 db.sqlite3
 media/docs/*
+docs/__pycache__/*
+logbook/migrations/__pycache__/*
+main/__pycache__/*
