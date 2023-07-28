@@ -3,3 +3,4 @@ media/docs/*
 docs/__pycache__/*
 logbook/migrations/__pycache__/*
 main/__pycache__/*
+media/activity_diagrams/*

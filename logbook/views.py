@@ -171,7 +171,9 @@ def logbook_detail_view(request, logbook_id):
         metadata['updated_entries'] = updated_entries
         
         print_state = False
-        if updated_entries == 5: print_state=True
+        if updated_entries == 5: 
+            print_state=True 
+
         # percentage of entries completed out of 5
         metadata['percentage'] = int((updated_entries / 5) * 100)
         metadata['print_state'] = print_state
@@ -387,6 +389,9 @@ def generate_logbook(request, logbook_id):
     student = Student.objects.get(user=request.user)
     logbook = Logbook.objects.get(student=student, id=logbook_id)
 
+    logbook.is_submitted=True
+    logbook.save()
+
     # collect activities
     activity_dict = {}
     days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
@@ -424,3 +429,41 @@ def download_generated_docx(request, generated_file_path):
         response = HttpResponse(file.read(), content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = f'attachment; filename="{file_name}"'
         return response
+
+
+
+def operations_view(request, logbook_id):
+    # check if user is logged in
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        return login_pass
+
+    student = Student.objects.get(user=request.user)
+    logbook = Logbook.objects.get(student=student, id=logbook_id)
+    try:
+        week_operations = Week_operation.objects.filter(logbook=logbook)
+        operation_count = len(week_operations)
+    except:
+        week_operations = False
+        operation_count = 0
+    
+
+    if request.method == 'POST':
+        operation_data = request.POST.get('operation', '') 
+        machinery_data = request.POST.get('machinery', '')  
+        
+        if operation_data and machinery_data:  
+            operation_instance = Week_operation(
+                logbook=logbook,
+                operation=operation_data,
+                machinery=machinery_data
+            )
+            operation_instance.save()
+
+    context={
+        'logbook': logbook,
+        'week_operations': week_operations,
+        'operation_count': operation_count
+    }
+
+    return render(request, 'logbook/logbook_operations.html', context)

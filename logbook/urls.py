@@ -12,5 +12,6 @@ urlpatterns = [
     path('catalog/<int:logbook_id>/batch/', create_batch_entries, name='logbook_batch'),
     path('logbook_redirect_login/', logbook_redirect_login, name='logbook_redirect_login'),
     path('logbook_logout_redirect/', logbook_logout_redirect, name='logbook_logout_redirect'),
-    path('aidalog/<int:logbook_id>/', generate_logbook, name='aidalog')
+    path('aidalog/<int:logbook_id>/', generate_logbook, name='aidalog'),
+    path('operations/<int:logbook_id>/', operations_view, name='operations')
 ]
