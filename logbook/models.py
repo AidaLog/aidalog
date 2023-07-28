@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from main.settings import MEDIA_ROOT
 
 
 class Student(models.Model):
@@ -16,6 +17,17 @@ class Student(models.Model):
         return f'{self.user.first_name} {self.user.last_name}'
 
 
+
+def get_default_activity_diagram():
+    # Get the file path to the default image
+    default_image_path = os.path.join(settings.MEDIA_ROOT, "aidaLog.png")
+    # Check if the default image exists
+    if os.path.exists(default_image_path):
+        # Return the relative path to the default image from the media directory
+        return os.path.relpath(default_image_path, settings.MEDIA_ROOT)
+    # Return None if the default image doesn't exist
+    return None
+
 class Logbook(models.Model):
     student = models.ForeignKey(Student, related_name='logbooks', on_delete=models.CASCADE)
     week_number = models.IntegerField()
@@ -23,7 +35,7 @@ class Logbook(models.Model):
     to_date = models.DateField()
     is_submitted = models.BooleanField(default=False, verbose_name="Logbook Printed")
     week_activity = models.TextField(blank=True)
-    activity_diagram = models.FileField(upload_to="activity_diagrams", null=True, blank=True)
+    activity_diagram = models.FileField(upload_to="activity_diagrams", blank=True, default=get_default_activity_diagram)
     def __str__(self):
         return f'Logbook week:{self.week_number}'
 

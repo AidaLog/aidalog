@@ -223,13 +223,16 @@ def logbook_create_view(request):
     if week_activity_clean == "" or week_activity is None:
         week_activity = "Waiting for entries"
 
+    activity_diagram = f"{MEDIA_ROOT}/aidaLog.png"
+
     # Create and return the Logbook instance
     Logbook.objects.create(
         student=student,
         week_number=week_number,
         from_date=from_date,
         to_date=to_date,
-        week_activity=week_activity)
+        week_activity=week_activity,
+        activity_diagram = activity_diagram)
 
     return redirect("/logbook/catalog")
 
@@ -441,10 +444,7 @@ def generate_logbook(request, logbook_id):
     week_no = logbook.week_number 
     from_date = logbook.from_date
     to_date = logbook.to_date
-    activity_diagram = "/media/aidaLog.png"
-    # if logbook.activity_diagram is not blank
-    if logbook.activity_diagram:
-        activity_diagram = logbook.activity_diagram
+    activity_diagram = logbook.activity_diagram
     generated_document = aidalog(department, student_name, reg_no, company, week_no, from_date, to_date, activity_dict, operation_list, activity_diagram)
 
     return download_generated_docx(request, generated_document)
