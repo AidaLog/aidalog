@@ -20,6 +20,15 @@
                     {% endif %}
                     <div class="row">
                         
+                        <div class="col-lg-6">
+                            <div class="card card-plain">
+                                <div class="card-body">
+                                    <h2 class="font-weight-light">Add Operation for week {{logbook.week_number}}<span class="px-2"></span></h2>
+                                    <h4 class="text-light">Aida guide</h4>
+                                    <p class="text-white mt-4" id="summary">Please fill in the form below to add a week operation. Write a summary of the operation in the "Operation" field, and mention the tools or machinery used in the "Machinery" field. Be as detailed as possible to document your practical training activities.</p>
+                                </div>
+                            </div>
+                        </div>
                             
                         <div class="col-lg-6">
                             <form method="post" class="card"> {% csrf_token %}
@@ -48,15 +57,6 @@
                                    
                         </div>
 
-                        <div class="col-lg-6">
-                            <div class="card card-plain">
-                                <div class="card-body">
-                                    <h2 class="font-weight-light">Add Operation for week {{logbook.week_number}}<span class="px-2"></span></h2>
-                                    <h4 class="text-light">Aida guide</h4>
-                                    <p class="text-white mt-4" id="summary">Please fill in the form below to add a week operation. Write a summary of the operation in the "Operation" field, and mention the tools or machinery used in the "Machinery" field. Be as detailed as possible to document your practical training activities.</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
