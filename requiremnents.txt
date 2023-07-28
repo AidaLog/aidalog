@@ -1,5 +1,7 @@
 python-docx
+html2docx
 mimetypes
+django
 django_hosts
 tensorflow
 numpy

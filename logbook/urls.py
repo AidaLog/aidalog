@@ -13,5 +13,9 @@ urlpatterns = [
     path('logbook_redirect_login/', logbook_redirect_login, name='logbook_redirect_login'),
     path('logbook_logout_redirect/', logbook_logout_redirect, name='logbook_logout_redirect'),
     path('aidalog/<int:logbook_id>/', generate_logbook, name='aidalog'),
-    path('operations/<int:logbook_id>/', operations_view, name='operations')
+    path('operations/<int:logbook_id>/', operations_view, name='operations'),
+    path('operations-create/<int:logbook_id>/', operations_create_view, name='create_operations'),
+    path('operations-update/<int:logbook_id>/<int:operation_id>/', operations_edit_view, name='update_operations'),
+    path('operations-delete/<int:logbook_id>/<int:operation_id>/', operations_delete_view, name='delete_operations'),
+    path('update-diagram/<int:logbook_id>/', update_activity_diagram, name='update_diagram'),
 ]

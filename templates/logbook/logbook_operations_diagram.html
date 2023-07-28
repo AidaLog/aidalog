@@ -1,0 +1,110 @@
+{% extends 'logbook/includes/base.html' %}
+{% load static %}
+
+<!-- main block -->
+{% block main_block %}
+    <div class="wrapper">
+
+        <div class="main">
+            <div class="section">
+                <div class="container">
+                    {% if form_errors %}
+                        <div class="alert alert-danger alert-with-icon">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="tim-icons icon-simple-remove"></i>
+                            </button>
+                            <span data-notify="icon" class="tim-icons icon-bell-55"></span>
+                            <span>
+                            <b> {{form_errors}} </span>
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <form method="post" class="card" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card-header">
+                                    <h4 class="font-weight-light text-warning">Week Activity Diagram</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-sm-12">
+                                        <div class="form-group border rounded p-2">
+                                            <label for="id_machinery">Diagram</label>
+                                            <input type="file" name="diagram" class="form-control " id="id_diagram" placeholder="Image">
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-success btn-md float-right" type="submit" value="Submit">Save Diagram</button>
+                                </div>
+                                <div class="col-12 bg-white rounded">
+                                    <h3 class="text-center text-dark pt-3">Diagram Preview</h3>
+                                    <img src="" alt="diagram" class="img-fluid" id="updated_diagram">
+                                </div>
+                            </form> 
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="card card-plain">
+                                <div class="card-body">
+                                    <h2 class="font-weight-light">Operations week {{logbook.week_number}}<span class="px-2"></span></h2>
+                                    <h4 class="text-light">Diagram Preview</h4>
+                                    <div class="row">
+                                        <div class="col-12 bg-white rounded">
+                                            <img src="/media/{{logbook.activity_diagram}}" alt="diagram" class="img-fluid" id="logbook_diagram">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+    <script>
+        const updatedDiagram = document.getElementById('updated_diagram');
+        const logbookDiagram = document.getElementById('logbook_diagram');
+    
+        function checkImageExists(imageUrl, imageElement) {
+            const img = new Image();
+            img.src = imageUrl;
+            img.onload = function() {
+                imageElement.src = imageUrl;
+                imageElement.style.display = 'block';
+            };
+            img.onerror = function() {
+                imageElement.style.display = 'none';
+            };
+        }
+    
+        // Check if the image exists and set the src attribute accordingly
+        checkImageExists('', updatedDiagram);
+        checkImageExists('/media/{{logbook.activity_diagram}}', logbookDiagram);
+    </script>
+
+    <script>
+        document.getElementById('id_diagram').addEventListener('change', function(event) {
+            const fileInput = event.target;
+            const updatedDiagram = document.getElementById('updated_diagram');
+    
+            // Check if a file was selected
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+    
+                // Listen for the FileReader to complete loading the image
+                reader.onload = function() {
+                    updatedDiagram.src = reader.result;
+                };
+    
+                // Read the image file as a data URL
+                reader.readAsDataURL(file);
+            } else {
+                // No file selected, clear the image source
+                updatedDiagram.src = '';
+            }
+            updatedDiagram.style.display = 'block';
+        });
+    </script> 
+
+{% endblock main_block %}
