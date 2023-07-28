@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from main.settings import MEDIA_ROOT
+from main import settings
 import os
 
 
