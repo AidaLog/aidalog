@@ -441,7 +441,10 @@ def generate_logbook(request, logbook_id):
     week_no = logbook.week_number 
     from_date = logbook.from_date
     to_date = logbook.to_date
-    activity_diagram = logbook.activity_diagram
+    activity_diagram = "/media/aidaLog.png"
+    # if logbook.activity_diagram is not blank
+    if logbook.activity_diagram:
+        activity_diagram = logbook.activity_diagram
     generated_document = aidalog(department, student_name, reg_no, company, week_no, from_date, to_date, activity_dict, operation_list, activity_diagram)
 
     return download_generated_docx(request, generated_document)
