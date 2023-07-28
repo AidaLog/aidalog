@@ -29,7 +29,7 @@
         // check if password field is valid
         function validatePassword(password) {
             // Check if the password length is exactly 8 characters
-            var re = /^[a-zA-Z0-9_]{8}$/;
+            var re = /^[a-zA-Z0-9_]{8,}$/;
             return re.test(password);
         }
 
