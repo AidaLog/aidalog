@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from main.settings import MEDIA_ROOT
+import os
 
 
 class Student(models.Model):
