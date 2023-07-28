@@ -32,7 +32,7 @@
                                             <i class="tim-icons icon-simple-remove"></i>
                                             </button>
                                             <span data-notify="icon" class="tim-icons icon-bell-55"></span>
-                                            <span>Hi there! your week operations are empty </span>
+                                            <span>Hi there! your week operations are empty <br><br><a href="{% url 'create_operations' logbook.id %}" class="font-weight-bold text-info"> <i class="fa fa-plus"></i> Add Here</a> </span>
                                         </div>
                                         {% else %}
                                             {% for operation in week_operations %}
@@ -100,6 +100,6 @@
             };
         }
 
-        checkImageExists('/media/{{logbook.activity_diagram}}', logbookDiagram);
+        {% comment %} checkImageExists('/media/{{logbook.activity_diagram}}', logbookDiagram); {% endcomment %}
     </script>
 {% endblock main_block %}
