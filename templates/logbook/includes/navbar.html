@@ -3,7 +3,7 @@
         <div class="navbar-translate">
             <a class="navbar-brand" href="{% url 'logbook_home' %}">{{request.user.username}} ● AidaLog</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse"
-                data-target="#example-navbar-primary" aria-controls="navbarSupportedContent" aria-expanded="false"
+                data-target="#example-navbar-primary" aria-controls="navbarSupportedContent" aria-expanded="false" style="z-index:2"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-bar bar1"></span>
                 <span class="navbar-toggler-bar bar2"></span>
@@ -28,8 +28,8 @@
                 </li>
                 <!-- home link-->
                 <li class="nav-item active">
-                    <a class="nav-link text-primary" href="{% url 'logbook_logout_redirect' %}">
-                        📑 leave
+                    <a class="nav-link text-danger" href="{% url 'logbook_logout_redirect' %}">
+                        logout
                     </a>
                 </li>
                 {% else %}
