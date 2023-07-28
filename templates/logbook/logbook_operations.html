@@ -3,72 +3,67 @@
 
 <!-- main block -->
 {% block main_block %}
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
     <div class="wrapper">
 
         <div class="main">
             <div class="section">
                 <div class="container">
+                    <div class="row mt-2">
+                        <div class="col-12 text-right">
+                            <a href="{% url 'logbook_detail' logbook.id %}" class="btn btn-neutral"> <i class="fa fa-arrow-back"></i>Back</a>
+                            <a href="{% url 'update_diagram' logbook.id %}" class="btn btn-info"> <i class="fa fa-edit"></i>Activity Diagram</a>
+                            <a href="{% url 'create_operations' logbook.id %}" class="btn btn-primary"> <i class="fa fa-plus"></i> Add Operation</a>
+                        </div>
+                    </div>
                     <div class="row justify-content-between">
+                        <!-- btn to add operation-->
+                        
                         <div class="col-lg-6">
                             <div class="card card-plain">
                                 <div class="card-body">
                                     <h1 class="font-weight-light">Week Operations</h1>
                                     <h4 class="font-weight-light text-warning">Logbook week - {{logbook.week_number}}</h4>
-
+                                    
                                     <div class="row">
-                                        {% if week_operations is False %}
-                                        <div class="alert alert-primary alert-with-icon">
-                                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close"><i class="tim-icons icon-simple-remove"></i></button>
+                                        {% if operation_count == 0 %}
+                                        <div class="alert alert-danger alert-with-icon">
+                                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                                            <i class="tim-icons icon-simple-remove"></i>
+                                            </button>
                                             <span data-notify="icon" class="tim-icons icon-bell-55"></span>
-                                            <span>Please Add Week operation from the form below. </span>
+                                            <span>Hi there! your week operations are empty </span>
                                         </div>
                                         {% else %}
                                             {% for operation in week_operations %}
                                                 <div class="col-12">
                                                     <div class="card">
                                                         <div class="card-header">
-                                                            <h4 class="font-weight-light text-primary">Operation</h4>
-                                                            {{operation.operation|safe}}
+                                                            <h5 class="font-weight-light text-primary">Operation</h5>
+                                                            <p class="font-weight-light text-secondary">
+                                                            {{operation.operation}}
+                                                            </p>
                                                         </div>
                                                         <div class="card-body">
-                                                            <h4 class="font-weight-light text-secondary">Machinery</h4>
-                                                            {{operation.machinery|safe}}
+                                                            <h5 class="font-weight-light text-primary">Machinery</h5>
+                                                            <p class="font-weight-light text-secondary">
+                                                            {{operation.machinery}}
+                                                            </p>
+
+                                                            <!-- edit and delete buttons-->
+                                                            <div class="row mt-2">
+                                                                <div class="col-12 text-right">
+                                                                    <a href="{% url 'update_operations' logbook.id operation.id %}" class="text-primary btn btn-sm"> <i class="fa fa-edit"></i> Edit</a>
+                                                                
+                                                                    <a href="{% url 'delete_operations' logbook.id operation.id %}" class="btn text-danger btn-sm"><i class="fa fa-trash"></i> Dispose</a>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             {% endfor %}
                                         {% endif %}
                                         
-                                    </div>
-
-                                    <div class="row">
-                                        <form method="post" class="card">
-                                            <div class="card-body">
-                                                <div class="col-sm-12 mb-2"> <span class="h4 font-weight-light text-warning">Add Week Operation</span></div>
-                                                {% csrf_token %}
-                                                <div class="col-sm-12">
-                                                    <div class="datepicker-container">
-                                                        <div class="form-group">
-                                                            <label for="id_operation">Operation:</label>
-                                                            <div id="operation-editor" class="col-12"></div>
-                                                            <input type="hidden" id="id_operation" name="operation" value="" class="form-controls">
-                                                        </div>
-                                                    </div>
-                                                </div>
-    
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <label for="id_machinery">Machinery:</label><br>
-                                                        <div id="machinery-editor" class="col-12"></div>
-                                                        <input type="hidden" id="id_machinery" name="machinery" value="">
-                                                    </div>
-                                                </div>
-                                                <button class="btn btn-success" type="submit" value="Submit">Add Operation</button>
-                                            </form>
-                                        </div>
-                                            
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +74,7 @@
                             <div class="card card-plain">
                                 <div class="card-body">
                                     <h2 class="font-weight-light">Activity Diagram</h2>
-                                    <img src="/media/{{logbook.activity_diagram}}" alt="Activity Diagram" class="img-fluid rounded">
+                                    <img src="/media/{{logbook.activity_diagram}}" alt="Activity Diagram" class="img-fluid rounded", id="logbook_diagram">
                                 </div>
                             </div>
                         </div>
@@ -88,27 +83,23 @@
             </div>
         </div>
     </div>
-<!-- Include Quill JavaScript -->
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-<script>
-    // Initialize Quill for the 'operation' field
-    var operationEditor = new Quill('#operation-editor', {
-    theme: 'snow',
-    });
-    // Store the content of the editor in the hidden input field when form is submitted
-    var operationInput = document.getElementById('id_operation');
-    operationEditor.on('text-change', function() {
-    operationInput.value = operationEditor.root.innerHTML;
-    });
 
-    // Initialize Quill for the 'machinery' field
-    var machineryEditor = new Quill('#machinery-editor', {
-    theme: 'snow',
-    });
-    // Store the content of the editor in the hidden input field when form is submitted
-    var machineryInput = document.getElementById('id_machinery');
-    machineryEditor.on('text-change', function() {
-    machineryInput.value = machineryEditor.root.innerHTML;
-    });
-</script>
+    
+    <script>
+        const logbookDiagram = document.getElementById('logbook_diagram');
+    
+        function checkImageExists(imageUrl, imageElement) {
+            const img = new Image();
+            img.src = imageUrl;
+            img.onload = function() {
+                imageElement.src = imageUrl;
+                imageElement.style.display = 'block';
+            };
+            img.onerror = function() {
+                imageElement.style.display = 'none';
+            };
+        }
+
+        checkImageExists('/media/{{logbook.activity_diagram}}', logbookDiagram);
+    </script>
 {% endblock main_block %}

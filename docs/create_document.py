@@ -5,6 +5,7 @@ from docx.enum.table import WD_ALIGN_VERTICAL
 from docx.shared import Inches, Pt
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
+from html2docx import html2docx
 
 def set_cell_borders(cell):
     """
@@ -28,7 +29,7 @@ def set_cell_borders(cell):
     # Add borders to the cell
     tcPr.append(borders)
 
-def create_practical_training_log_book(department, student_name, reg_no, company, week_no, from_date, to_date, data_dictionary):
+def create_practical_training_log_book(department, student_name, reg_no, company, week_no, from_date, to_date, data_dictionary, operations, activity_diagram):
 
     """
     data_dictionary = {
@@ -41,6 +42,15 @@ def create_practical_training_log_book(department, student_name, reg_no, company
             'activity': activity
         }
     }
+
+    operations = [ {
+            'operation': operation,
+            'machinery': machinery},
+
+            {'operation': operation,
+            'machinery': machinery}
+            ]
+
     """
     # capitalize 'department, student_name, company'
     department = department.upper()
@@ -171,8 +181,11 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     doc.add_heading('Details Of the Main Job of the Week', level=2)
 
 
-    # Add a table for machinery/tools used
-    machinery_table = doc.add_table(rows=8, cols=2)  # Add 1 row for the header
+    # Determine the number of rows in the machinery table based on the number of items in operations list
+    machinery_rows = max(2, len(operations)+1)  # Ensure at least 1 row for the header
+
+    # Create the machinery table
+    machinery_table = doc.add_table(rows=machinery_rows, cols=2)  # Add 1 row for the header
     machinery_table.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
     machinery_table.autofit = False
     machinery_table.columns[0].width = Inches(3)
@@ -199,12 +212,17 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     cell_0_0.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
     cell_0_1.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
-    # Populate the rest of the table with empty cells
-    for row in machinery_table.rows[1:]:
-        for cell in row.cells:
-            cell.text = ' '
+    # Populate the machinery table with operations data
+    for i, op_data in enumerate(operations, 1):
+        op_cell = machinery_table.cell(i, 0)
+        machinery_cell = machinery_table.cell(i, 1)
+
+        op_cell.text = op_data['operation']
+        machinery_cell.text = op_data['machinery']
 
 
+
+    doc.add_paragraph()
     # table for comments from industrial supervisor, 1 row, 2 columns comments and signature
     comments_table = doc.add_table(rows=1, cols=2)
     comments_table.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
@@ -267,7 +285,9 @@ def create_practical_training_log_book(department, student_name, reg_no, company
     # Add the diagram image
     diagram_table.cell(1, 0).merge(diagram_table.cell(1, 3))
     diagram_table.cell(1, 0).paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-    diagram_table.cell(1, 0).paragraphs[0].add_run().add_picture(f"{MEDIA_ROOT}/aidaLog.png", width=Inches(6))
+
+    # get image from logbook.activity_diagram
+    diagram_table.cell(1, 0).paragraphs[0].add_run().add_picture(activity_diagram, width=Inches(6))
 
 
 

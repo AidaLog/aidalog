@@ -21,8 +21,16 @@
                         <div class="col-lg-5 mb-5 mb-lg-0 ">
                             <h1 class="text-white font-weight-light">Logbook - Week {{logbook.week_number}}</h1>
                             <h4 class="text-warning font-weight-light">Main Operation Summary</h4>
-                            <p class="text-white mt-4">{{logbook.week_activity}}</p>
-                            <a href="{% url 'operations' logbook.id %}" class="btn btn-primary mt-4 btn-sm">Update Week Operations</a>
+                            <p class="text-white mt-4">
+                                {% if metadata.week_operations is None or metadata.week_operations.week_operation_count == 0%}
+                                Please Mention atleast one week operation from the update button bellow
+                                {% else %}
+                                    {% for operation in metadata.week_operations %}
+                                        <span class="font-weight-light">● {{operation}}</span> <br>
+                                    {% endfor %}
+                                {% endif %}     
+                            </p>
+                            <a href="{% url 'operations' logbook.id %}" class="btn btn-primary mt-4 btn-sm">Week Operations & Diagram</a>
                             {% if metadata.entry_count == 0 %}
                             <a href="{% url 'logbook_batch' logbook.id %}" class="btn btn-neutral mt-4 btn-sm">Create Entries</a>
                             {% else %}

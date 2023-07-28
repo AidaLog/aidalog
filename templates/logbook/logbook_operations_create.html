@@ -1,0 +1,66 @@
+{% extends 'logbook/includes/base.html' %}
+{% load static %}
+
+<!-- main block -->
+{% block main_block %}
+    <div class="wrapper">
+
+        <div class="main">
+            <div class="section">
+                <div class="container">
+                    {% if form_errors %}
+                        <div class="alert alert-danger alert-with-icon">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="tim-icons icon-simple-remove"></i>
+                            </button>
+                            <span data-notify="icon" class="tim-icons icon-bell-55"></span>
+                            <span>
+                            <b> {{form_errors}} </span>
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        
+                            
+                        <div class="col-lg-6">
+                            <form method="post" class="card"> {% csrf_token %}
+                                <div class="card-header"> <h4 class="font-weight-light text-warning">Add Week Operation</h4></div>
+                                <div class="card-body">
+                                    
+                                    {% csrf_token %}
+                                    <div class="col-sm-12">
+                                        <div class="datepicker-container">
+                                            <div class="form-group">
+                                                <label for="id_operation">Operation:</label>
+                                                <textarea id="id_operation" name="operation" class="form-control border-primary" placeholder="Write Acitivty Summary here">{{week_operation.operation}}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="id_machinery">Machinery:</label>
+                                            <textarea id="id_machinery" name="machinery" class="form-control border-primary" placeholder="Mention tools used here Example: .. be creative ..">{{week_operation.machinery}}</textarea>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-success btn-md float-right" type="submit" value="Submit">Save Operation</button>
+                                </form>
+                            </div>
+                                   
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="card card-plain">
+                                <div class="card-body">
+                                    <h2 class="font-weight-light">Add Operation for week {{logbook.week_number}}<span class="px-2"></span></h2>
+                                    <h4 class="text-light">Aida guide</h4>
+                                    <p class="text-white mt-4" id="summary">Please fill in the form below to add a week operation. Write a summary of the operation in the "Operation" field, and mention the tools or machinery used in the "Machinery" field. Be as detailed as possible to document your practical training activities.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock main_block %}

@@ -180,6 +180,21 @@ def logbook_detail_view(request, logbook_id):
     except Entry.DoesNotExist:
         entries = None
 
+    # get week operations   
+    try:
+        week_operations = Week_operation.objects.filter(logbook=logbook)
+        metadata['week_operation_count'] = len(week_operations)
+
+        # get only 2 week operations, max 30 characters for opeartions
+        week_operations = week_operations[:2]
+        for week_operation in week_operations:
+            if len(week_operation.operation) > 30:
+                week_operation.operation = week_operation.operation[:50] + "..."
+
+    except WeekOperation.DoesNotExist:
+        week_operations = None
+
+    metadata['week_operations'] = week_operations
 
     context = {
         'logbook': logbook,
@@ -407,7 +422,17 @@ def generate_logbook(request, logbook_id):
             'date': "dd/mm/yyyy",
             'activity': ""}
 
-        
+    # get operation and machinery
+    operation_list = []
+    try:
+        week_operations = Week_operation.objects.filter(logbook=logbook)
+        for week_operation in week_operations:
+            operation_list.append(
+                {"operation": week_operation.operation,
+                "machinery": week_operation.machinery})
+    except:
+        pass
+            
     
     department = student.department_name
     student_name = f"{student.user.last_name}, {student.user.first_name}"
@@ -416,7 +441,8 @@ def generate_logbook(request, logbook_id):
     week_no = logbook.week_number 
     from_date = logbook.from_date
     to_date = logbook.to_date
-    generated_document = aidalog(department, student_name, reg_no, company, week_no, from_date, to_date, activity_dict)
+    activity_diagram = logbook.activity_diagram
+    generated_document = aidalog(department, student_name, reg_no, company, week_no, from_date, to_date, activity_dict, operation_list, activity_diagram)
 
     return download_generated_docx(request, generated_document)
 
@@ -467,3 +493,98 @@ def operations_view(request, logbook_id):
     }
 
     return render(request, 'logbook/logbook_operations.html', context)
+
+
+def operations_create_view(request, logbook_id):
+    # check if user is logged in
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        return login_pass
+
+    student = Student.objects.get(user=request.user)
+    logbook = Logbook.objects.get(student=student, id=logbook_id)
+    
+    if request.method == 'POST':
+        operation_data = request.POST.get('operation', '') 
+        machinery_data = request.POST.get('machinery', '')  
+        
+        if operation_data and machinery_data:  
+            operation_instance = Week_operation(
+                logbook=logbook,
+                operation=operation_data,
+                machinery=machinery_data
+            )
+            operation_instance.save()
+        
+        return redirect("/logbook/operations/"+str(logbook_id))
+
+    context={
+        'logbook': logbook,
+    }
+
+    return render(request, 'logbook/logbook_operations_create.html', context)
+
+def operations_edit_view(request, logbook_id, operation_id):
+    # check if user is logged in
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        return login_pass
+
+    student = Student.objects.get(user=request.user)
+    logbook = Logbook.objects.get(student=student, id=logbook_id)
+    week_operation = Week_operation.objects.get(logbook=logbook, id=operation_id)
+
+    if request.method == 'POST':
+        operation_data = request.POST.get('operation', '') 
+        machinery_data = request.POST.get('machinery', '')  
+
+        week_operation.operation = operation_data
+        week_operation.machinery = machinery_data
+
+        week_operation.save()
+        
+        return redirect("/logbook/operations/"+str(logbook_id))
+
+    context={
+        'logbook': logbook,
+        'week_operation': week_operation
+    }
+
+    return render(request, 'logbook/logbook_operations_create.html', context)
+
+
+def operations_delete_view(request, logbook_id, operation_id):
+    # check if user is logged in
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        return login_pass
+
+    student = Student.objects.get(user=request.user)
+    logbook = Logbook.objects.get(student=student, id=logbook_id)
+    week_operation = Week_operation.objects.get(logbook=logbook, id=operation_id)
+    week_operation.delete()
+
+    return redirect("/logbook/operations/"+str(logbook_id))
+
+
+def update_activity_diagram(request, logbook_id):
+    # check if user is logged in
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        return login_pass
+
+    student = Student.objects.get(user=request.user)
+    logbook = Logbook.objects.get(student=student, id=logbook_id)
+
+    if request.method == 'POST':
+        activity_diagram_file = request.FILES['diagram']
+        logbook.activity_diagram = activity_diagram_file
+        logbook.save()
+
+        return redirect("/logbook/operations/"+str(logbook_id))
+
+    context={
+        'logbook': logbook,
+    }
+
+    return render(request, 'logbook/logbook_operations_diagram.html', context)
