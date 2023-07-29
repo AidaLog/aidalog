@@ -66,12 +66,15 @@
         
         <div class="section">
             <div class="container align-items-center">
-            <!--  01 -->
-                <div class="row">
+                <!-- how to use title-->
+                <h1 class="profile-title text-center mb-5">How to use <span class="text-primary">AidaLog</span></h1>
+
+                <div class="row mt-5">
+                    
                     <div class="col-lg-6 col-md-6">
-                        <h1 class="profile-title text-left">Creating and <span class="text-info">Setting</span> Account</h1>
+                        <h1 class="profile-title text-left">Creating and <span class="text-success">Setting</span> Account</h1>
                         <h5 class="text-on-back">01</h5>
-                        <p class="profile-description mt-2">sign up by providing required information then login. To start using AidaLog you must first set up your training account by filling in you Full Name, Practical Training location etc.</p>
+                        <p class="profile-description mt-2">To start using AidaLog, simply sign up by providing your Full Name, Practical Training location, and other required information. Once registered, you can easily log in using your chosen username and password.</p>
                     </div>
                     <div class="col-md-6">
                         <div class="row justify-content-between align-items-center">
@@ -109,6 +112,12 @@
             <div class="section">
                 <div class="container">
                     <div class="row justify-content-between">
+                        <div class="col-md-5">
+                            <h1 class="profile-title text-left">Accessing Aida From Projects</h1>
+                            <h5 class="text-on-back">02</h5>
+                            <p class="profile-description text-left mt-2">Once you log in to AidaLog, you will be directed to the website main page. From there, click on the "AidaLog" tab and select "Explore" to access the app. Feel free to explore and navigate through various projects</p>
+                        </div>
+
                         <div class="col-md-6">
                             <div class="row justify-content-between align-items-center">
                                 <div id="" class="carousel slide" data-ride="carousel">
@@ -123,11 +132,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <h1 class="profile-title text-left">Accessing Aida From Projects</h1>
-                            <h5 class="text-on-back">02</h5>
-                            <p class="profile-description text-left mt-2">Right After logging in you will end up here. On aidaLog tab press explore to access the app. You can roam around to check out other projects.</p>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -139,7 +144,7 @@
                         <div class="col-md-5">
                             <h1 class="profile-title text-left">Creating Logbook</h1>
                             <h5 class="text-on-back">03</h5>
-                            <p class="profile-description text-left mt-2">On navigation menu(top right) there is a catalog link. Or you can open "My Logbooks" to see lists of created logbooks. Also from that page you can create a new logbook</p>
+                            <p class="profile-description text-left mt-2">After logging in, you can find the navigation menu at the top right corner. Click on the "Catalog" link to explore the available options. Alternatively, you can open "My Logbooks" to view a list of logbooks you have created. From this page, you have the option to create a new logbook and start organizing your training data efficiently.</p>
                         </div>
             
                         <div class="col-md-6">
@@ -164,7 +169,7 @@
                         <div class="col-md-5">
                             <h1 class="profile-title text-left">Initializing Logbook</h1>
                             <h5 class="text-on-back">04</h5>
-                            <p class="profile-description text-left mt-2">After clicking <span class="btn btn-sm btn-round">+ Create logbook</span> a simple form will prompt for week number and starting date (Monday date for the week)</p>
+                            <p class="profile-description text-left mt-2">Once you click on the <span class="btn btn-sm btn-round">+ Create logbook</span> button, a simple form will appear, prompting you to enter the week number and the starting date (Monday's date) for the week. This information will help organize your logbook effectively, allowing you to keep track of your practical training progress systematically.</p>
                         </div>
             
                         <div class="col-md-6">
@@ -186,25 +191,23 @@
             <div class="section">
               <div class="container">
                 <div class="row justify-content-between">
-        
-                  <div class="col-md-6">
-                    <div class="row justify-content-between align-items-center">
-                      <div id="" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner" role="listbox">
-                          <div class="carousel-item active">
-                            <img class="d-block rounded border border-primary" src="{% static 'logbook/assets/img/logbook_operations_and_entries.png'%}" alt="">
-                           
-                          </div>
-                        </div>
-                      </div>
+                    <div class="col-md-5">
+                        <h1 class="profile-title text-left">Creating Entries & operations</h1>
+                        <h5 class="text-on-back">05</h5>
+                        <p class="profile-description text-left mt-2">Upon creating your logbook, you'll find two helpful buttons to guide you through your practical training journey. The first button will allow you to generate all five entries for the week automatically, providing you with a convenient starting point that you can later edit and customize as needed. The second button will lead you to the operations page, where you can create and update your weekly operations</p>
                     </div>
-                  </div>
-        
-                  <div class="col-md-5">
-                    <h1 class="profile-title text-left">Creating Entries & operations</h1>
-                    <h5 class="text-on-back">05</h5>
-                    <p class="profile-description text-left mt-2">There will be two buttons to guide you. One will create all 5 entries that you can edit. The other button will open operations page that you can create and update your weekly operations.</p>
-                  </div>
+                    <div class="col-md-6">
+                        <div class="row justify-content-between align-items-center">
+                        <div id="" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img class="d-block rounded border border-primary" src="{% static 'logbook/assets/img/logbook_operations_and_entries.png'%}" alt="">
+                            
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                 </div>
               </div>
             </div>
@@ -280,7 +283,7 @@
                     <div class="col-md-3">
                         <ul class="nav">
                             <li class="nav-item">
-                                <a href="https://eddiegulay.me" class="nav-link">
+                                <a href="https://eddiegulay.me" class="nav-link" target="_blank">
                                     Meet the creator
                                 </a>
                             </li>
