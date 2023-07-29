@@ -132,13 +132,33 @@ def logbook_catalog_view(request):
         # get entries from this logbook
         try:
             entries = Entry.objects.filter(logbook=logbook)
+            updated_entries = Entry.objects.filter(logbook=logbook, is_updated=True)
+            updated_entries_count = len(updated_entries)
+
             metadata['entries'] = entries
-            metadata['entry_count'] = len(entries)
+            metadata['entry_count'] = updated_entries_count
             # percentage of entries completed out of 5
-            metadata['percentage'] = int((len(entries) / 5) * 100)
+            metadata['percentage'] = int((updated_entries_count / 5) * 100)
         except Entry.DoesNotExist:
             entries = None
 
+            # get week operations   
+        try:
+            week_operations = Week_operation.objects.filter(logbook=logbook)
+            metadata['week_operation_count'] = len(week_operations)
+
+            # get only 2 week operations, max 30 characters for opeartions
+            week_operations = week_operations[:2]
+            for week_operation in week_operations:
+                if len(week_operation.operation) > 30:
+                    week_operation.operation = week_operation.operation[:50] + "..."
+
+        except Week_operation.DoesNotExist:
+            metadata['week_operation_count'] = 0
+            week_operations = None
+
+        metadata['week_operations'] = week_operations
+        
         logbook_catalog.append(metadata)
 
 
@@ -146,6 +166,7 @@ def logbook_catalog_view(request):
         "logbooks": logbook_catalog,
         "logbook_count": len(logbooks)
     }
+    print(context)
 
     return render(request, 'logbook/logbook_list.html', context)
 
@@ -191,7 +212,7 @@ def logbook_detail_view(request, logbook_id):
             if len(week_operation.operation) > 30:
                 week_operation.operation = week_operation.operation[:50] + "..."
 
-    except WeekOperation.DoesNotExist:
+    except Week_operation.DoesNotExist:
         week_operations = None
 
     metadata['week_operations'] = week_operations
