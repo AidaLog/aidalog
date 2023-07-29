@@ -29,7 +29,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group border rounded p-2">
                                             <label for="id_machinery">Diagram</label>
-                                            <input type="file" name="diagram" class="form-control" id="id_diagram" accept=".png, .jpg, .jpeg" placeholder="Image">
+                                            <input type="file" name="diagram" class="form-control" id="id_diagram" accept=".png, .jpg, .jpeg" placeholder="Image" required>
                                         </div>
                                     </div>
                                     <button class="btn btn-success btn-md float-right" type="submit" value="Submit">Save Diagram</button>
@@ -44,6 +44,7 @@
                         <div class="col-lg-6">
                             <div class="card card-plain">
                                 <div class="card-body">
+                                    <a href="/logbook/operations/{{logbook.id}}/" class="btn btn-link btn-sm float-right text-light"><i class="tim-icons icon-minimal-left"></i> Back</a>
                                     <h2 class="font-weight-light">Operations week {{logbook.week_number}}<span class="px-2"></span></h2>
                                     <h4 class="text-light">Diagram Preview</h4>
                                     <div class="row">
