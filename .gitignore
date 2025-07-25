@@ -1,6 +1,93 @@
-db.sqlite3
-media/docs/*
-docs/__pycache__/*
-logbook/migrations/__pycache__/*
-main/__pycache__/*
-media/activity_diagrams/*
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.sqlite3
+*.sqlite3-journal
+migrations/
+media/
+staticfiles/
+
+# Django local settings
+local_settings.py
+settings/local.py
+settings/dev.py
+settings/prod.py
+
+# Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+*.whl
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Virtualenv
+venv*/
+virtualenv*/
+.env
+.venv
+
+# IDEs and editors
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Testing
+htmlcov/
+.coverage
+.coverage.*
+.cache
+coverage.xml
+*.cover
+*.py,cover
+
+# Static files and media
+/static/
+/media/
+
+# Database dumps
+*.sql
+*.sql.gz
+
+# Package manager
+node_modules/
+package-lock.json
+yarn.lock
+
+# Miscellaneous
+*.bak
+*.swp
+*~
+*.lock
