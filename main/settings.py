@@ -34,7 +34,6 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     'gulay.pythonanywhere.com',
-    'ner.gulay.pythonanywhere.com'
     ]
 
 # Application definition
@@ -48,7 +47,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_hosts',
     'home',
-    'ner', 
     'logbook'
 ]
 
