@@ -15,7 +15,6 @@ venv.bak/
 *.sqlite3-journal
 migrations/
 media/
-staticfiles/
 
 # Django local settings
 local_settings.py
