@@ -17,14 +17,6 @@
     <header class="fixed-header">
         <a href="/" class="header-logo">AidaLog</a>
         <a href="/" class="home-icon" aria-label="Home">🏠</a>
-        <!-- for logged in user -->
-        {% if user.is_authenticated %}
-        <!-- Catalog -->
-        <a href="/logbook/catalog" class="catalog-link btn">Logbook</a>
-        <!-- Settings -->
-        <a href="/logbook/logbook_settings" class="settings-link btn">Settings</a>
-
-        {% endif %}
     </header>
 
     <!-- Scene 1: Quiet Entrance -->
@@ -34,7 +26,14 @@
             <h1 class="logo">AidaLog</h1>
             <p class="tagline">Aided Logbook Entry Helper for your Practical Training.</p>
             <div class="entrance-buttons">
+                <!-- for logged in user -->
+                {% if user.is_authenticated %}
+                <a href="/logbook/catalog" class="btn primary">My Logbooks</a>
+                {% else %}
+                <!-- Catalog -->
                 <a href="/login" class="btn primary">Start</a>
+                {% endif %}
+                
                 <button class="btn secondary">Learn How It Works</button>
             </div>
         </div>
@@ -108,8 +107,13 @@
             <h2 class="companion-title">Aida is here when you're ready.</h2>
             <p class="companion-subtitle">Created by a fellow student. You're not alone in this.</p>
             <div class="companion-buttons">
-                <a href="/logbook" class="btn primary large">Create My Logbook</a>
-                <a href="https://eddiegulay.github.io" class="btn secondary large">Meet the Creator</a>
+                <!-- for logged in user -->
+                {% if user.is_authenticated %}
+                <a href="/logbook/catalog" class="btn primary large">My Logbooks</a>
+                {% else %}
+                <!-- Catalog -->
+                <a href="/signup" class="catalog-link btn">Signup</a>
+                {% endif %}
             </div>
             <div class="student-illustration">
                 <svg class="student-svg" viewBox="0 0 200 150" fill="none">
