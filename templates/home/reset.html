@@ -1,15 +1,19 @@
 {% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AidaLog - Reset Password</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Zen+Maru+Gothic:wght@300;400&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Zen+Maru+Gothic:wght@300;400&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="{% static 'home/assets/styles.css' %}">
 </head>
+
 <body>
     <header class="fixed-header">
         <a href="/" class="header-logo">AidaLog</a>
@@ -26,17 +30,26 @@
             <form class="auth-form" method="post">
                 {% csrf_token %}
                 <div class="input-group">
-                    <input type="email" id="reset-email" placeholder="Email Address" class="auth-input" name="email" >
+                    <input type="test" id="reset-email" placeholder="Username or Email Address" class="auth-input"
+                        name="identifier">
                     <span class="underline-effect"></span>
                 </div>
                 <div class="input-group">
-                    <input type="password" id="reset-new-password" placeholder="New Password" class="auth-input" name="password1">
+                    <input type="password" id="reset-new-password" placeholder="New Password" class="auth-input"
+                        name="password1">
                     <span class="underline-effect"></span>
                 </div>
                 <div class="input-group">
-                    <input type="password" id="reset-confirm-password" placeholder="Confirm New Password" class="auth-input" name="password2">
+                    <input type="password" id="reset-confirm-password" placeholder="Confirm New Password"
+                        class="auth-input" name="password2">
                     <span class="underline-effect"></span>
                 </div>
+                <!-- form errors -->
+                {% if form_errors %}
+                <div class="form-errors">
+                    <p class="scroll-link">{{ form_errors }}</p>
+                </div>
+                {%endif%}
                 <button type="submit" class="btn primary auth-btn">Reset Password</button>
             </form>
             <div class="auth-micro-text">
@@ -46,7 +59,8 @@
         </div>
     </section>
 
-    
+
     {% include 'home/includes/footer.html' %}
 </body>
+
 </html>
