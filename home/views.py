@@ -51,7 +51,7 @@ def login_view(request):
         if success is False:
             context["form_errors"] = "invalid username or password"
         else:
-            return success
+            return redirect("/logbook")
 
     return render(request, "home/login.html", context)
 

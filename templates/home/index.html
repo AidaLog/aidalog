@@ -17,6 +17,14 @@
     <header class="fixed-header">
         <a href="/" class="header-logo">AidaLog</a>
         <a href="/" class="home-icon" aria-label="Home">🏠</a>
+        <!-- for logged in user -->
+        {% if user.is_authenticated %}
+        <!-- Catalog -->
+        <a href="/logbook/catalog" class="catalog-link btn">Logbook</a>
+        <!-- Settings -->
+        <a href="/logbook/logbook_settings" class="settings-link btn">Settings</a>
+
+        {% endif %}
     </header>
 
     <!-- Scene 1: Quiet Entrance -->
