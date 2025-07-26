@@ -1,0 +1,725 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    color: #2c2c2c;
+    overflow-x: hidden;
+}
+
+.scene {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Fixed Header */
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background: transparent;
+    pointer-events: none; /* Allows clicks to pass through */
+}
+
+.fixed-header > * {
+    pointer-events: auto; /* Re-enable clicks for children */
+}
+
+.header-logo {
+    font-family: 'Zen Maru Gothic', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #4a5a4a;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    opacity: 1; /* Always visible */
+    transition: opacity 0.3s ease;
+}
+
+.home-icon {
+    font-size: 1.5rem;
+    color: #6a7a6a;
+    text-decoration: none;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s ease;
+}
+
+.fixed-header:hover .home-icon {
+    opacity: 1; /* Visible on header hover */
+}
+
+/* Scene 1: Quiet Entrance */
+.scene-1 {
+    background: linear-gradient(135deg, #fefefe 0%, #f8f8f6 100%);
+    flex-direction: column;
+}
+
+.wave-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><path d="M0,300 Q300,200 600,300 T1200,300 L1200,0 L0,0 Z" fill="rgba(168,181,168,0.03)"/></svg>') no-repeat center;
+    background-size: cover;
+    animation: wave-float 8s ease-in-out infinite;
+}
+
+@keyframes wave-float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-10px) scale(1.02); }
+}
+
+.entrance-content {
+    text-align: center;
+    z-index: 1;
+    opacity: 0;
+}
+
+.logo {
+    font-family: 'Zen Maru Gothic', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    color: #4a5a4a;
+    letter-spacing: 0.05em;
+}
+
+.tagline {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #6a7a6a;
+    margin-bottom: 3rem;
+    max-width: 500px;
+    line-height: 1.8;
+}
+
+.entrance-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn.primary {
+    background: #8B9A8B;
+    color: white;
+}
+
+.btn.primary:hover {
+    background: #7A897A;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(139, 154, 139, 0.3);
+}
+
+.btn.secondary {
+    background: transparent;
+    color: #6a7a6a;
+    border: 1px solid #d0d8d0;
+}
+
+.btn.secondary:hover {
+    background: #f8f8f6;
+    border-color: #8B9A8B;
+    color: #4a5a4a;
+}
+
+.btn.large {
+    padding: 1.2rem 3rem;
+    font-size: 1.1rem;
+}
+
+/* Scene 2: The Whisper of Purpose */
+.scene-2 {
+    background: linear-gradient(135deg, #f8f8f6 0%, #f0f0ee 100%);
+    padding: 0 2rem;
+}
+
+.purpose-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1200px;
+    width: 100%;
+    align-items: center;
+}
+
+.purpose-text {
+    opacity: 0;
+}
+
+.whisper-title {
+    font-family: 'Zen Maru Gothic', serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: #3a4a3a;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+.whisper-subtitle {
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: #8B7B8B;
+    font-style: italic;
+}
+
+.purpose-animation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    opacity: 0;
+}
+
+.floating-logbook, .ticking-clock, .auto-form {
+    width: 120px;
+    height: 80px;
+    background: rgba(168, 181, 168, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(168, 181, 168, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.floating-logbook::before {
+    content: "📖";
+    font-size: 2rem;
+}
+
+.ticking-clock::before {
+    content: "⏰";
+    font-size: 2rem;
+}
+
+.auto-form::before {
+    content: "📝";
+    font-size: 2rem;
+}
+
+.scroll-cue {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 30px;
+    background: linear-gradient(to bottom, transparent, #8B9A8B);
+    border-radius: 1px;
+    animation: scroll-pulse 2s ease-in-out infinite;
+}
+
+@keyframes scroll-pulse {
+    0%, 100% { opacity: 0.4; transform: translateX(-50%) scale(1); }
+    50% { opacity: 1; transform: translateX(-50%) scale(1.2); }
+}
+
+/* Scene 3: Steps Like Stones in a Garden */
+.scene-3 {
+    background: linear-gradient(135deg, #f0f0ee 0%, #e8e8e6 100%);
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+.steps-section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.steps-title {
+    font-family: 'Zen Maru Gothic', serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: #3a4a3a;
+    margin-bottom: 3rem;
+    text-align: center;
+    opacity: 0;
+}
+
+.steps-container {
+    display: flex;
+    gap: 3rem;
+    padding: 2rem 4rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+}
+
+.steps-container::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-shadow-left,
+.scroll-shadow-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.scroll-shadow-left {
+    left: 0;
+    background: linear-gradient(to right, rgba(240, 240, 238, 0.8), transparent);
+}
+
+.scroll-shadow-right {
+    right: 0;
+    background: linear-gradient(to left, rgba(240, 240, 238, 0.8), transparent);
+}
+
+.step-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    width: 280px;
+    min-width: 280px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(168, 181, 168, 0.1);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    position: relative;
+    overflow: hidden;
+}
+
+.step-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, transparent, rgba(168, 181, 168, 0.1), transparent);
+    border-radius: 22px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(139, 154, 139, 0.15);
+}
+
+.step-card:hover::before {
+    opacity: 1;
+}
+
+.step-number {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #A8B5A8, #8B9A8B);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0 auto 1.5rem;
+}
+
+.step-card h3 {
+    font-family: 'Zen Maru Gothic', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: #3a4a3a;
+    margin-bottom: 1rem;
+}
+
+.step-card p {
+    font-size: 0.95rem;
+    color: #6a7a6a;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+/* Scene 4: The Companion Awaits */
+.scene-4 {
+    background: linear-gradient(135deg, #e8e8e6 0%, #f8f8f6 100%);
+    text-align: center;
+    padding: 0 2rem;
+}
+
+.companion-content {
+    max-width: 600px;
+    opacity: 0;
+}
+
+.companion-title {
+    font-family: 'Zen Maru Gothic', serif;
+    font-size: 2.8rem;
+    font-weight: 400;
+    color: #3a4a3a;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.companion-subtitle {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: #8B7B8B;
+    margin-bottom: 3rem;
+    font-style: italic;
+}
+
+.companion-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.student-illustration {
+    opacity: 0.7;
+}
+
+.student-svg {
+    width: 200px;
+    height: 150px;
+}
+
+.tree {
+    animation: tree-sway 4s ease-in-out infinite;
+}
+
+.student-head {
+    animation: student-bob 3s ease-in-out infinite;
+}
+
+.laptop {
+    animation: laptop-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes tree-sway {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(2deg); }
+}
+
+@keyframes student-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+}
+
+@keyframes laptop-glow {
+    0% { fill-opacity: 0.8; }
+    100% { fill-opacity: 1; }
+}
+
+/* Scene 5: The Closing Gesture */
+.scene-5 {
+    background: #f8f8f6;
+    min-height: auto;
+    padding: 4rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(168, 181, 168, 0.1);
+}
+
+.footer-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.footer-nav {
+    margin-bottom: 1.5rem;
+    opacity: 0;
+}
+
+.footer-nav a {
+    color: #6a7a6a;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+    color: #3a4a3a;
+}
+
+.separator {
+    margin: 0 1rem;
+    color: #d0d8d0;
+}
+
+.footer-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(168, 181, 168, 0.3), transparent);
+    margin: 2rem auto;
+    opacity: 0;
+}
+
+.closing-quote {
+    font-family: 'Zen Maru Gothic', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #8B7B8B;
+    font-style: italic;
+    opacity: 0;
+    margin-top: 1.5rem;
+}
+
+/* Scene 6: Auth Flow */
+.scene-6 {
+    background: linear-gradient(135deg, #fefefe 0%, #f8f8f6 100%);
+    flex-direction: column;
+    padding: 4rem 2rem;
+    justify-content: flex-start; /* Align content to start for vertical flow */
+    gap: 6rem; /* Space between auth scenes */
+}
+
+.auth-petal-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0; /* Behind forms */
+}
+
+.auth-scene {
+    width: 100%;
+    max-width: 420px;
+    padding: 3rem 2.5rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(168, 181, 168, 0.1);
+    text-align: center;
+    position: relative;
+    z-index: 1; /* Above petals */
+    opacity: 0; /* Initial hidden state for animation */
+    transform: translateY(30px);
+    scroll-margin-top: 5rem; /* Space for fixed header when scrolling to section */
+}
+
+.auth-scene:not(:first-child) {
+    margin-top: 6rem; /* Ensures consistent spacing if not the first scene */
+}
+
+.auth-text {
+    margin-bottom: 2rem;
+}
+
+.auth-title {
+    font-family: 'Zen Maru Gothic', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: #3a4a3a;
+    margin-bottom: 0.8rem;
+}
+
+.auth-subtitle {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #8B7B8B;
+    font-style: italic;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.input-group {
+    position: relative;
+    padding-bottom: 5px; /* Space for the underline */
+}
+
+.auth-input {
+    width: 100%;
+    padding: 0.75rem 0.5rem;
+    border: none;
+    border-bottom: 1px solid #d0d8d0;
+    font-family: inherit;
+    font-size: 1rem;
+    color: #2c2c2c;
+    background: transparent;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.auth-input::placeholder {
+    color: #a0a0a0;
+    font-weight: 300;
+    transition: opacity 0.3s ease;
+}
+
+.auth-input:focus::placeholder {
+    opacity: 0;
+}
+
+.auth-input:focus {
+    border-color: transparent; /* Hide native border, let underline-effect take over */
+}
+
+.underline-effect {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(to right, #A8B5A8, #8B9A8B);
+    transition: width 0.3s ease-out; /* Fallback for no JS or initial state */
+}
+
+.auth-btn {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1.1rem 2.5rem;
+    font-size: 1.05rem;
+}
+
+.auth-micro-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+
+.auth-micro-text a {
+    color: #6a7a6a;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.auth-micro-text a:hover {
+    color: #4a5a4a;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .fixed-header {
+        padding: 1rem 1.5rem;
+    }
+
+    .header-logo {
+        font-size: 1.2rem;
+    }
+
+    .home-icon {
+        font-size: 1.2rem;
+    }
+
+    .logo {
+        font-size: 2.5rem;
+    }
+    
+    .whisper-title {
+        font-size: 1.8rem;
+    }
+    
+    .companion-title {
+        font-size: 2rem;
+    }
+    
+    .purpose-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+    
+    .entrance-buttons,
+    .companion-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .steps-container {
+        padding: 1rem 2rem;
+        gap: 1.5rem;
+    }
+    
+    .scroll-shadow-left,
+    .scroll-shadow-right {
+        width: 50px;
+    }
+    
+    .step-card {
+        width: 250px;
+    }
+    
+    .footer-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .separator {
+        display: none;
+    }
+
+    .scene-6 {
+        padding: 2rem 1rem;
+        gap: 4rem;
+    }
+
+    .auth-scene {
+        padding: 2rem 1.5rem;
+        margin-top: 4rem !important; /* Adjust margin for mobile */
+    }
+
+    .auth-title {
+        font-size: 1.5rem;
+    }
+
+    .auth-subtitle {
+        font-size: 1rem;
+    }
+}
