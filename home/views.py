@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 
 def home_view(request):
@@ -58,23 +59,24 @@ def login_view(request):
 
 def password_reset_view(request):
     context = {}
+    
     if request.method == "POST":
-        email = request.POST.get("email")
+        identifier = request.POST.get("identifier")
         password1 = request.POST.get("password1")
         password2 = request.POST.get("password2")
 
-        if not email or not password1 or not password2:
+        if not identifier or not password1 or not password2:
             context["form_errors"] = "All fields are required"
         elif password1 != password2:
             context["form_errors"] = "Passwords do not match"
         else:
             try:
-                user = User.objects.get(email=email)
+                user = User.objects.get(Q(email=identifier) | Q(username=identifier))
                 user.password = make_password(password1)
                 user.save()
                 context["success_message"] = "Password has been reset successfully"
                 return redirect("/login")
             except User.DoesNotExist:
-                context["form_errors"] = "No user with that email found"
+                context["form_errors"] = "No user with that username or email found"
 
     return render(request, "home/reset.html", context)
