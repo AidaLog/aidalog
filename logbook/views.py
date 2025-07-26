@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.urls import reverse
 from home.views import process_login, logout
 from .models import *
 from datetime import datetime, timedelta
@@ -48,7 +49,7 @@ def profile_settings_view(request):
         year_of_study = request.POST['year_of_study']
         dept_name = request.POST['dept_name']
         company_name = request.POST['company_name']
-        start_date = request.POST['start_date']
+        start_date = request.POST.get('start_date', '')
 
         # update user profile
         user = request.user
@@ -73,7 +74,8 @@ def profile_settings_view(request):
             student.department_name = dept_name
             student.university = "UDSM"
             student.pt_location = company_name
-            student.practical_training_start_date = start_date
+            if start_date:
+                student.practical_training_start_date = start_date
             student.save()
         else:
             # update student
@@ -81,10 +83,11 @@ def profile_settings_view(request):
             student.year_of_study = year_of_study
             student.department_name = dept_name
             student.pt_location = company_name
-            student.practical_training_start_date = start_date
+            if start_date:
+                student.practical_training_start_date = start_date
             student.save()
 
-        return redirect("/logbook")
+        return redirect(reverse('logbook_settings'))
 
     # get student information
     try:
@@ -463,7 +466,15 @@ def generate_logbook(request, logbook_id):
     from_date = logbook.from_date
     to_date = logbook.to_date
     activity_diagram = logbook.activity_diagram
-    generated_document = aidalog(department, student_name, reg_no, company, week_no, from_date, to_date, activity_dict, operation_list, activity_diagram)
+    try:
+        generated_document = aidalog(department, student_name, reg_no, company, week_no, from_date, to_date, activity_dict, operation_list, activity_diagram)
+    except FileNotFoundError as e:
+        from django.http import HttpResponse
+        return HttpResponse(
+            f"Error generating logbook document<br>"
+            "The generated file could not be found. Please check if the output directory exists.",
+            status=500
+        )
 
     return download_generated_docx(request, generated_document)
 
@@ -537,7 +548,7 @@ def operations_create_view(request, logbook_id):
             )
             operation_instance.save()
         
-        return redirect("/logbook/operations/"+str(logbook_id))
+        return redirect(reverse('operations_list', kwargs={'logbook_id': logbook_id}))
 
     context={
         'logbook': logbook,
@@ -564,7 +575,7 @@ def operations_edit_view(request, logbook_id, operation_id):
 
         week_operation.save()
         
-        return redirect("/logbook/operations/"+str(logbook_id))
+        return redirect(reverse('operations_list', kwargs={'logbook_id': logbook_id}))
 
     context={
         'logbook': logbook,
@@ -585,7 +596,7 @@ def operations_delete_view(request, logbook_id, operation_id):
     week_operation = Week_operation.objects.get(logbook=logbook, id=operation_id)
     week_operation.delete()
 
-    return redirect("/logbook/operations/"+str(logbook_id))
+    return redirect(reverse('operations_list', kwargs={'logbook_id': logbook_id}))
 
 
 def update_activity_diagram(request, logbook_id):
@@ -602,7 +613,7 @@ def update_activity_diagram(request, logbook_id):
         logbook.activity_diagram = activity_diagram_file
         logbook.save()
 
-        return redirect("/logbook/operations/"+str(logbook_id))
+        return redirect(reverse('operations_list', kwargs={'logbook_id': logbook_id}))
 
     context={
         'logbook': logbook,
