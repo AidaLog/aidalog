@@ -166,7 +166,6 @@ def logbook_catalog_view(request):
         "logbooks": logbook_catalog,
         "logbook_count": len(logbooks)
     }
-    print(context)
 
     return render(request, 'logbook/logbook_list.html', context)
 
