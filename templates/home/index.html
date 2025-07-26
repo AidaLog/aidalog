@@ -1,14 +1,18 @@
-{% load static %}
+{% load static%}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AidaLog - Aided Logbook Entry Helper</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Zen+Maru+Gothic:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'home/style.css' %}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Zen+Maru+Gothic:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'home/assets/styles.css' %}">
 </head>
+
 <body>
     <header class="fixed-header">
         <a href="/" class="header-logo">AidaLog</a>
@@ -22,7 +26,7 @@
             <h1 class="logo">AidaLog</h1>
             <p class="tagline">Aided Logbook Entry Helper for your Practical Training.</p>
             <div class="entrance-buttons">
-                <button class="btn primary">Start</button>
+                <a href="/login" class="btn primary">Start</a>
                 <button class="btn secondary">Learn How It Works</button>
             </div>
         </div>
@@ -96,43 +100,24 @@
             <h2 class="companion-title">Aida is here when you're ready.</h2>
             <p class="companion-subtitle">Created by a fellow student. You're not alone in this.</p>
             <div class="companion-buttons">
-                <button class="btn primary large">Create My Logbook</button>
-                <button class="btn secondary large">Meet the Creator</button>
+                <a href="/logbook" class="btn primary large">Create My Logbook</a>
+                <a href="https://eddiegulay.github.io" class="btn secondary large">Meet the Creator</a>
             </div>
             <div class="student-illustration">
                 <svg class="student-svg" viewBox="0 0 200 150" fill="none">
-                    <path class="tree" d="M100 120L90 100Q95 90 100 85Q105 90 110 100L100 120" stroke="#8B9A8B" stroke-width="2" fill="#A8B5A8" opacity="0.7"/>
-                    <circle class="student-head" cx="85" cy="90" r="8" fill="#E8D5C4"/>
-                    <rect class="laptop" x="75" y="100" width="20" height="12" rx="2" fill="#C8D0C8" stroke="#A0A8A0"/>
-                    <path class="grass" d="M0 130Q50 125 100 130Q150 125 200 130L200 150L0 150Z" fill="#A8B5A8" opacity="0.4"/>
+                    <path class="tree" d="M100 120L90 100Q95 90 100 85Q105 90 110 100L100 120" stroke="#8B9A8B"
+                        stroke-width="2" fill="#A8B5A8" opacity="0.7" />
+                    <circle class="student-head" cx="85" cy="90" r="8" fill="#E8D5C4" />
+                    <rect class="laptop" x="75" y="100" width="20" height="12" rx="2" fill="#C8D0C8" stroke="#A0A8A0" />
+                    <path class="grass" d="M0 130Q50 125 100 130Q150 125 200 130L200 150L0 150Z" fill="#A8B5A8"
+                        opacity="0.4" />
                 </svg>
             </div>
         </div>
     </section>
 
-    <footer class="scene scene-5">
-        <div class="footer-content">
-            <nav class="footer-nav">
-                <a href="#about">About Aida</a>
-                <span class="separator">|</span>
-                <a href="#github">GitHub</a>
-                <span class="separator">|</span>
-                <a href="#contact">Contact</a>
-                <span class="separator">|</span>
-                <a href="#privacy">Privacy</a>
-            </nav>
-            <div class="footer-divider"></div>
-            <p class="closing-quote">The best logs are lived, not typed.</p>
-        </div>
-    </footer>
+    {% include 'home/includes/footer.html' %}
 
-    <script type="importmap">
-    {
-        "imports": {
-            "animejs": "https://esm.sh/animejs@3.2.1"
-        }
-    }
-    </script>
-    <script type="module" src="{% static 'home/js/script.js' %}"></script>
 </body>
+
 </html>

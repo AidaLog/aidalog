@@ -1,20 +1,53 @@
-{% extends 'home/includes/base.html' %}
 {% load static%}
-{% block main_block %}
-    <div class="card">
-        <div class="card-body text-center d-flex flex-column align-items-center">
-            <div class="bs-icon-xl bs-icon-circle bs-icon-primary shadow bs-icon my-4"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-person">
-                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"></path>
-                </svg></div>
-            <form method="post" data-bs-theme="light"> {% csrf_token %}
-                <p class="text-danger text-center">{{form_errors}}</p>
-                <div class="mb-3"><input class="form-control" type="text" name="email" placeholder="username"></div>
-                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Password"></div>
-                <div class="mb-3"><button class="btn btn-primary shadow d-block w-100" type="submit">Log in</button></div>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AidaLog - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Zen+Maru+Gothic:wght@300;400&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'home/assets/styles.css' %}">
+</head>
+
+<body>
+    <header class="fixed-header">
+        <a href="/" class="header-logo">AidaLog</a>
+        <a href="/" class="home-icon" aria-label="Home">🏠</a>
+    </header>
+
+    <section class="scene scene-6" id="auth-flow">
+        <div class="auth-petal-bg"></div>
+        <div class="auth-scene" id="login-section">
+            <div class="auth-text">
+                <h2 class="auth-title">Welcome back.</h2>
+                <p class="auth-subtitle">Your journey continues here.</p>
+            </div>
+            <form class="auth-form" method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="text" name="email" id="login-username" placeholder="Username or Email" class="auth-input">
+                    <span class="underline-effect"></span>
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password"  id="login-password" placeholder="Password" class="auth-input">
+                    <span class="underline-effect"></span>
+                </div>
+                <button type="submit" class="btn primary auth-btn">Log In</button>
             </form>
-            <p class="text-muted">Forgot your password?</p>
-            <!-- create account link-->
-            <p class="text-muted">Don't have an account yet? <a href="{% url 'signup' %}">Create one</a></p>
+            <div class="auth-micro-text">
+                <a href="/reset-pwd" class="scroll-link">Forgot your password?</a>
+                <a href="/signup" class="scroll-link">Don't have an account?</a>
+            </div>
         </div>
-    </div>
-{% endblock %}
+    </section>
+
+    
+    {% include 'home/includes/footer.html' %}
+</body>
+
+</html>

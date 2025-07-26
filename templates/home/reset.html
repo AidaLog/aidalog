@@ -1,0 +1,52 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AidaLog - Reset Password</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Zen+Maru+Gothic:wght@300;400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'home/assets/styles.css' %}">
+</head>
+<body>
+    <header class="fixed-header">
+        <a href="/" class="header-logo">AidaLog</a>
+        <a href="/" class="home-icon" aria-label="Home">🏠</a>
+    </header>
+
+    <section class="scene scene-6" id="auth-flow">
+        <div class="auth-petal-bg"></div>
+        <div class="auth-scene" id="reset-section">
+            <div class="auth-text">
+                <h2 class="auth-title">Forgot your password?</h2>
+                <p class="auth-subtitle">Let's help you reset and move forward.</p>
+            </div>
+            <form class="auth-form" method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="email" id="reset-email" placeholder="Email Address" class="auth-input" name="email" >
+                    <span class="underline-effect"></span>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="reset-new-password" placeholder="New Password" class="auth-input" name="password1">
+                    <span class="underline-effect"></span>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="reset-confirm-password" placeholder="Confirm New Password" class="auth-input" name="password2">
+                    <span class="underline-effect"></span>
+                </div>
+                <button type="submit" class="btn primary auth-btn">Reset Password</button>
+            </form>
+            <div class="auth-micro-text">
+                <a href="/login" class="scroll-link">Remembered your password?</a>
+                <a href="/signup" class="scroll-link">No account yet?</a>
+            </div>
+        </div>
+    </section>
+
+    
+    {% include 'home/includes/footer.html' %}
+</body>
+</html>
