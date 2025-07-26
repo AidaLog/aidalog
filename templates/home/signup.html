@@ -48,6 +48,12 @@
                         class="auth-input">
                     <span class="underline-effect"></span>
                 </div>
+                <!-- form errors -->
+                {% if form_errors %}
+                <div class="form-errors">
+                    <p class="scroll-link">{{ form_errors }}</p>
+                </div>
+                {%endif%}
                 <button type="submit" class="btn primary auth-btn">Create My Logbook</button>
             </form>
             <div class="auth-micro-text">

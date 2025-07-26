@@ -34,9 +34,20 @@ def logout_view(request):
 
 
 def process_login(request, redirect_path="/"):
-    username = request.POST["email"]
-    password = request.POST["password"]
-    user = authenticate(username=username, password=password)
+    from django.db.models import Q
+
+    identifier = request.POST.get("email")
+    password = request.POST.get("password")
+
+    user = None
+
+    if identifier and password:
+        try:
+            user_obj = User.objects.get(Q(username=identifier) | Q(email=identifier))
+            user = authenticate(username=user_obj.username, password=password)
+        except User.DoesNotExist:
+            return False
+
     if user is not None:
         login(request, user)
         return redirect(redirect_path)

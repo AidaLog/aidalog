@@ -30,13 +30,21 @@
             <form class="auth-form" method="post">
                 {% csrf_token %}
                 <div class="input-group">
-                    <input type="text" name="email" id="login-username" placeholder="Username or Email" class="auth-input">
+                    <input type="text" name="email" id="login-username" placeholder="Username or Email"
+                        class="auth-input">
                     <span class="underline-effect"></span>
                 </div>
                 <div class="input-group">
-                    <input type="password" name="password"  id="login-password" placeholder="Password" class="auth-input">
+                    <input type="password" name="password" id="login-password" placeholder="Password"
+                        class="auth-input">
                     <span class="underline-effect"></span>
                 </div>
+                <!-- form errors -->
+                {% if form_errors %}
+                <div class="form-errors">
+                    <p class="scroll-link">{{ form_errors }}</p>
+                </div>
+                {%endif%}
                 <button type="submit" class="btn primary auth-btn">Log In</button>
             </form>
             <div class="auth-micro-text">
@@ -46,7 +54,7 @@
         </div>
     </section>
 
-    
+
     {% include 'home/includes/footer.html' %}
 </body>
 
