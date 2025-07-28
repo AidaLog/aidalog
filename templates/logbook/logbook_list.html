@@ -3,166 +3,176 @@
 
 <!-- main block -->
 {% block main_block %}
-    <div class="wrapper">
-        <div class="container">
-            <div class="row">
-                <div class="col-8">
-                    <div class="display-3 font-weight-light text-white">Catalog</div>
-                </div>
-                <div class="col-4">
-                    <div class="float-right">
-                        <button class="btn btn-outline-warning btn-round" data-toggle="modal" data-target="#myModal2">
-                            <span class="text-light">
-                                <i class="btn-icon tim-icons icon-simple-add"></i> Create new </span>
-                        </button>
-                    </div>
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <div class="display-3 font-weight-light text-white">Catalog</div>
+            </div>
+            <div class="col-4">
+                <div class="float-right">
+                    <button class="btn btn-outline-warning btn-round" data-toggle="modal" data-target="#myModal2">
+                        <span class="text-light">
+                            <i class="btn-icon tim-icons icon-simple-add"></i> Create new </span>
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="main">
-            <div class="section">
-                <div class="container">
+    <div class="main">
+        <div class="section">
+            <div class="container">
 
-                    {% if logbook_count == 0 %}
-                        <div class="alert alert-success alert-with-icon">
-                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-                            <i class="tim-icons icon-simple-remove"></i>
+                {% if logbook_count == 0 %}
+                <div class="alert alert-success alert-with-icon">
+                    <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="tim-icons icon-simple-remove"></i>
+                    </button>
+                    <span data-notify="icon" class="tim-icons icon-bell-55"></span>
+                    <span>
+                        <b> Welcome </b> Create your first Logbook from the button above </span>
+                </div>
+                {% else %}
+                {% for logbook in logbooks %}
+                <!-- catalog item -->
+                <div class="row justify-content-between">
+                    <div class="col-lg-5 mb-5 mb-lg-0 ">
+                        <h2 class="text-white font-weight-light">Logbook - Week {{ logbook.week_number }}</h2>
+                        <h4 class="text-warning font-weight-light">Main Operation</h4>
+
+                        {% if logbook.week_operation_count == 0%}
+
+                        <div class="alert alert-info alert-with-icon">
+                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+                                aria-label="Close">
+                                <i class="tim-icons icon-simple-remove"></i>
                             </button>
                             <span data-notify="icon" class="tim-icons icon-bell-55"></span>
-                            <span>
-                            <b> Welcome </b> Create your first Logbook from the button above </span>
+                            <span>Please Add week operation summary!. </span>
                         </div>
-                    {% else %}
-                        {% for logbook in logbooks %}
-                            <!-- catalog item -->
-                            <div class="row justify-content-between">
-                                <div class="col-lg-5 mb-5 mb-lg-0 ">
-                                    <h2 class="text-white font-weight-light">Logbook - Week {{ logbook.week_number }}</h2>
-                                    <h4 class="text-warning font-weight-light">Main Operation</h4>
-                                    
-                                    {% if logbook.week_operation_count == 0%}
-                                    
-                                        <div class="alert alert-info alert-with-icon">
-                                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-                                            <i class="tim-icons icon-simple-remove"></i>
-                                            </button>
-                                            <span data-notify="icon" class="tim-icons icon-bell-55"></span>
-                                            <span>Please Add week operation summary!. </span>
-                                        </div>
-                                    {% else %}
-                                    <p class="text-white mt-4">
-                                        {% for operation in logbook.week_operations %}
-                                            <span class="font-weight-light">● {{operation}}</span> <br>
-                                        {% endfor %}
-                                    </p>
-                                    {% endif %} 
+                        {% else %}
+                        <p class="text-white mt-4">
+                            {% for operation in logbook.week_operations %}
+                            <span class="font-weight-light">● {{operation}}</span> <br>
+                            {% endfor %}
+                        </p>
+                        {% endif %}
 
-                                    
-                                </div>
-                                <div class="col-lg-5 mb-lg-0">
-                                    <div class="card-plain">
-                                        <div class="card-body">
-                                            <div class="progress-container progress-primary">
-                                                <span class="progress-badge">Entries</span>
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-warning" role="progressbar"
-                                                        aria-valuenow="{{ logbook.percentage }}" aria-valuemin="0" aria-valuemax="100"
-                                                        style="width: {{ logbook.percentage }}%;">
-                                                        <span class="progress-value">({{ logbook.entry_count }}/5) - {{ logbook.percentage }}%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class="text-danger btn-round mt-4 float-left logdelete" data-toggle="modal" data-target="#myModal3" onclick="prepare({{logbook.id}})"> <i class="fa fa-trash"></i></span>
-                                            <a href="{% url 'logbook_detail' logbook.id %}" class="btn btn-neutral btn-round mt-4 float-right">Open</a>
+
+                    </div>
+                    <div class="col-lg-5 mb-lg-0">
+                        <div class="card-plain">
+                            <div class="card-body">
+                                <div class="progress-container progress-primary">
+                                    <span class="progress-badge">Entries</span>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar"
+                                            aria-valuenow="{{logbook.percentage }}" aria-valuemin="0"
+                                            aria-valuemax="100" style="width: {{ logbook.percentage }}%;">
+                                            <span class="progress-value">({{ logbook.entry_count }}/5) - {{logbook.percentage }}%</span>
                                         </div>
                                     </div>
                                 </div>
-                                <hr class="bg-danger col-12">
+                                <span class="text-danger btn-round mt-4 float-left logdelete" data-toggle="modal"
+                                    data-target="#myModal3" onclick="prepare({{logbook.id}})"> <i
+                                        class="fa fa-trash"></i></span>
+                                <a href="{% url 'logbook_detail' logbook.id %}"
+                                    class="btn btn-neutral btn-round mt-4 float-right">Open</a>
                             </div>
-                            <!-- end catalog item -->
-                        {% endfor %}
-                    {% endif %}
-
-                </div>
-            </div>
-        </div>
-
-        <!-- Form Modal -->
-        <div class="modal fade modal-black" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header justify-content-center">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            <i class="tim-icons icon-simple-remove text-white"></i>
-                        </button>
-                        <div class="text-muted text-center ml-auto mr-auto">
-                            <h3 class="mb-0">Create new Logbook</h3>
                         </div>
                     </div>
-                    <div class="modal-body">
-                        <form role="form" method="post"> {% csrf_token %}
-                            <div class="card card-plain">
-                                <div class="card-body">
-                                    <div class="form-group mb-3">
-                                        <label>Week number</label>
-                                        <input type="number" class="form-control border-info" name="week_number" placeholder="Week Number. Example 1, 2 ..."/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>From date</label>
-                                        <input type="date" id="datepicker"
-                                            class="form-control datepicker rounded border border-warning"
-                                            placeholder="Date" data-datepicker-color="Success" id="from_date" name="from_date" required>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <hr class="bg-primary col-6">
-                                        <div class="input-group">
-                                            <textarea name="week_activity" class="form-control" placeholder="Short Summary for main operation for the week (optional). if you don't have anything right now leave empty"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary my-4">Create</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                    <hr class="bg-danger col-12">
                 </div>
-            </div>
-        </div>
-        <!--  End Modal -->
+                <!-- end catalog item -->
+                {% endfor %}
+                {% endif %}
 
-         <!-- Form Modal -->
-         <div class="modal fade modal-black" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header justify-content-center">
-                        <div class="text-muted text-center ml-auto mr-auto">
-                            <h3 class="mb-0">You are about to delete your logbook. Are you sure?</h3>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <form role="form" method="post"> {% csrf_token %}
-                            <div class="card card-plain">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <button type="button" class="btn btn-neutral my-4 float-left" onclick="clean()">No</button>
-                                        </div>
-                                        <div class="col-6">
-                                            <button type="button" class="btn btn-danger my-4 flaot-right" onclick="dispose()">Yes, delete!</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
             </div>
         </div>
-        <!--  End Modal -->
     </div>
+
+    <!-- Form Modal -->
+    <div class="modal fade modal-black" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="height: 100vh !important;"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="tim-icons icon-simple-remove text-white"></i>
+                    </button>
+                    <div class="text-muted text-center ml-auto mr-auto">
+                        <h3 class="mb-0">Create new Logbook</h3>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form role="form" method="post"> {% csrf_token %}
+                        <div class="card card-plain">
+                            <div class="card-body">
+                                <div class="form-group mb-3">
+                                    <label>Week number</label>
+                                    <input type="number" class="form-control border-info" name="week_number"
+                                        placeholder="Week Number. Example 1, 2 ..." />
+                                </div>
+                                <div class="form-group">
+                                    <label>From date</label>
+                                    <input type="date" id="datepicker"
+                                        class="form-control datepicker rounded border border-warning" placeholder="Date"
+                                        data-datepicker-color="Success" id="from_date" name="from_date" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <hr class="bg-primary col-6">
+                                    <div class="input-group">
+                                        <textarea name="week_activity" class="form-control"
+                                            placeholder="Short Summary for main operation for the week (optional). if you don't have anything right now leave empty"></textarea>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary my-4">Create</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  End Modal -->
+
+    <!-- Form Modal -->
+    <div class="modal fade modal-black" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="height: 100vh !important;"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <div class="text-muted text-center ml-auto mr-auto">
+                        <h3 class="mb-0">You are about to delete your logbook. Are you sure?</h3>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form role="form" method="post"> {% csrf_token %}
+                        <div class="card card-plain">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-neutral my-4 float-left"
+                                            onclick="clean()">No</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger my-4 flaot-right"
+                                            onclick="dispose()">Yes, delete!</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Modal -->
+</div>
 
 <script>
 // delete btns

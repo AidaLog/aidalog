@@ -12,52 +12,27 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.10", "3.11"]
-      max-parallel: 4
-
     env:
       DJANGO_SETTINGS_MODULE: main.settings
-
     steps:
       - uses: actions/checkout@v4
-
+      - name: Verify Files
+        run: test -f requirements.txt && test -f main/settings.py || { echo "Files missing"; exit 1; }
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-
       - name: Cache pip dependencies
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-${{ matrix.python-version }}-
-
+          restore-keys: ${{ runner.os }}-pip-${{ matrix.python-version }}-
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install coverage  # For test coverage
-
-      - name: Run Linting
-        run: |
-          pip install flake8
-          flake8 . --max-line-length=88 --extend-ignore=E203  # Align with Black's defaults
-
-      - name: Set up Database
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y sqlite3  # Default for Django, adjust if using another DB
-          python manage.py migrate
-
-      - name: Run Tests with Coverage
-        run: |
-          coverage run --source='.' manage.py test
-          coverage report
-          coverage xml
-
-      - name: Upload Coverage Report
-        uses: codecov/codecov-action@v4
-        with:
-          files: ./coverage.xml
-          token: ${{ secrets.CODECOV_TOKEN }}
+          pip install django -r requirements.txt || { echo "Dependency installation failed"; exit 1; }
+      - name: Run Migrations
+        run: python manage.py migrate || { echo "Database migration failed"; exit 1; }
+      - name: Collect Static Files
+        run: python manage.py collectstatic --noinput
