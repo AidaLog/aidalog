@@ -1,4 +1,4 @@
-from main.settings import MEDIA_ROOT
+from main.settings import MEDIA_ROOT, BASE_DIR
 from docx import Document
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.table import WD_ALIGN_VERTICAL
