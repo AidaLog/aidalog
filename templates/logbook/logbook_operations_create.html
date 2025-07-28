@@ -1,66 +1,122 @@
 {% extends 'logbook/includes/base.html' %}
 {% load static %}
 
-<!-- main block -->
 {% block main_block %}
     <div class="wrapper">
-
         <div class="main">
             <div class="section">
                 <div class="container">
                     {% if form_errors %}
                         <div class="alert alert-danger alert-with-icon">
                             <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-                            <i class="tim-icons icon-simple-remove"></i>
+                                <i class="tim-icons icon-simple-remove"></i>
                             </button>
                             <span data-notify="icon" class="tim-icons icon-bell-55"></span>
-                            <span>
-                            <b> {{form_errors}} </span>
+                            <span><b>{{ form_errors }}</b></span>
                         </div>
                     {% endif %}
                     <div class="row">
-                        
                         <div class="col-lg-6">
                             <div class="card card-plain">
                                 <div class="card-body">
-                                    <h2 class="font-weight-light">Add Operation for week {{logbook.week_number}}<span class="px-2"></span></h2>
+                                    <h2 class="font-weight-light">Add Operation for week {{ logbook.week_number }}</h2>
                                     <h4 class="text-light">Aida guide</h4>
-                                    <p class="text-white mt-4" id="summary">Please fill in the form below to add a week operation. Write a summary of the operation in the "Operation" field, and mention the tools or machinery used in the "Machinery" field. Be as detailed as possible to document your practical training activities.</p>
+                                    <p class="text-white mt-4" id="summary">
+                                        Please fill in the form below to add a week operation. Write a summary of the operation in the "Operation" field, and mention the tools or machinery used in the "Machinery" field. Be as detailed as possible to document your practical training activities.
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                            
                         <div class="col-lg-6">
-                            <form method="post" class="card"> {% csrf_token %}
-                                <div class="card-header"> <h4 class="font-weight-light text-warning">Add Week Operation</h4></div>
-                                <div class="card-body">
-                                    
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="font-weight-light text-warning">Add Week Operation</h4>
+                                </div>
+                                <form method="post">
                                     {% csrf_token %}
-                                    <div class="col-sm-12">
-                                        <div class="datepicker-container">
-                                            <div class="form-group">
-                                                <label for="id_operation">Operation:</label>
-                                                <textarea id="id_operation" name="operation" class="form-control border-primary" placeholder="Write Acitivty Summary here">{{week_operation.operation}}</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-12">
+                                    <div class="card-body">
                                         <div class="form-group">
-                                            <label for="id_machinery">Machinery:</label>
-                                            <textarea id="id_machinery" name="machinery" class="form-control border-primary" placeholder="Mention tools used here Example: .. be creative ..">{{week_operation.machinery}}</textarea>
+                                            <label for="operation">Operation:</label>
+                                            <textarea id="operation" name="operation" class="form-control border-primary" 
+                                                placeholder="Write Activity Summary here">{% if week_operation.operation %}{{ week_operation.operation }}{% endif %}</textarea>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="machinery">Machinery:</label>
+                                            <textarea id="machinery" name="machinery" class="form-control border-primary" 
+                                                placeholder="Mention tools used here, e.g., lathe, CNC machine, welding torch">{% if week_operation.machinery %}{{ week_operation.machinery }}{% endif %}</textarea>
+                                            <button type="button" class="btn btn-success float-left" id="generateSummary">Generate Summary</button>
+                                        </div>
+                                        <button type="submit" class="btn btn-success btn-md float-right">Save Operation</button>
                                     </div>
-                                    <button class="btn btn-success btn-md float-right" type="submit" value="Submit">Save Operation</button>
                                 </form>
                             </div>
-                                   
                         </div>
-
                     </div>
+                    <a href="{% url 'logbook_detail' logbook.id %}" class="btn btn-link btn-sm text-light mt-3">
+                        <i class="tim-icons icon-minimal-left"></i> Back to Logbook
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Form manipulation and AI integration -->
+    <script>
+        // Store original values for potential reset
+        const originalOperation = document.getElementById('operation').value;
+        const originalMachinery = document.getElementById('machinery').value;
+
+        $(document).ready(function() {
+            const generateButton = $('#generateSummary');
+
+            // Handle AI generation
+            generateButton.click(function() {
+                // Set loading state
+                generateButton.text('Generating...').prop('disabled', true);
+
+                // Fetch week entries
+                $.ajax({
+                    url: '/api/week-entries/{{ logbook.week_number }}',
+                    method: 'GET',
+                    success: function(entries) {
+                        const systemMessage = 'You are a helpful assistant that generates concise and professional summaries for a weekly operation logbook. Based on the provided week entries, create a summary for the "Operation" field (describing the week’s activities) and a list for the "Machinery" field (listing tools or machinery used). Ensure the summaries are clear, specific, and suitable for a logbook context.';
+                        const userPrompt = 'Week Entries: ' + JSON.stringify(entries);
+
+                        $.ajax({
+                            url: '/api/ai-generate',
+                            method: 'POST',
+                            contentType: 'application/json',
+                            headers: {
+                                'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val()
+                            },
+                            data: JSON.stringify({
+                                system_message: systemMessage,
+                                user_prompt: userPrompt
+                            }),
+                            success: function(response) {
+                                if (response.operation && response.machinery) {
+                                    $('#operation').val(response.operation);
+                                    $('#machinery').val(response.machinery);
+                                } else {
+                                    alert('Error: Invalid response from the API.');
+                                }
+                            },
+                            error: function(xhr) {
+                                alert('Error generating summary: ' + (xhr.responseJSON?.error || 'Unknown error'));
+                            },
+                            complete: function() {
+                                // Reset button state
+                                generateButton.text('Generate Summary').prop('disabled', false);
+                            }
+                        });
+                    },
+                    error: function(xhr) {
+                        alert('Error fetching week entries: ' + (xhr.responseJSON?.error || 'Unknown error'));
+                        // Reset button state
+                        generateButton.text('Generate Summary').prop('disabled', false);
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock main_block %}
