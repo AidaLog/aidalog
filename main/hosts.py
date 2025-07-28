@@ -1,6 +1,6 @@
 from django_hosts import patterns, host
 
 host_patterns = patterns(
-    '',
-    host(r'', 'main.urls', name='root'),  # no subdomain
+  '',
+  host(r'', 'main.urls', name=' '),  # no subdomain
 )
