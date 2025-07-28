@@ -175,19 +175,19 @@
 </div>
 
 <script>
-    // delete btns
-    var target_delete_id = null
-    function prepare(redirect_id) {
-        target_delete_id = redirect_id
-    }
-    function dispose() {
-        target = "/logbook/dispose/" + target_delete_id
-        clean()
-        window.location.href = target
-    }
-    function clean() {
-        target_delete_id = null
-        document.getElementById("myModal3").classList.remove("show")
-    }
+// delete btns
+var target_delete_id = null
+function prepare(redirect_id){
+    target_delete_id = redirect_id
+}
+function dispose(){
+    target = "/logbook/catalog/"+target_delete_id+"/delete/"
+    clean()
+    window.location.href = target
+}
+function clean(){
+    target_delete_id = null
+    document.getElementById("myModal3").classList.remove("show")
+}
 </script>
 {% endblock %}

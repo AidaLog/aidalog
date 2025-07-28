@@ -67,4 +67,5 @@ urlpatterns = [
         update_activity_diagram,
         name="diagram_update",
     ),
+    
 ]
