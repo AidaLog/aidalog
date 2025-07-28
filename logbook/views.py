@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from home.views import process_login, logout
-from .models import *
+from .models import Student, Logbook, Entry, Week_operation, User
 from datetime import datetime, timedelta
 from docs.create_document import create_practical_training_log_book as aidalog
 import os
