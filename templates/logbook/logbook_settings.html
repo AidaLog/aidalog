@@ -93,8 +93,9 @@
                                                     <div class="form-group">
                                                         <label>Practical Training Start date</label>
                                                         <input type="date" id="datepicker"
-                                                            class="form-control datepicker" placeholder="{{student.practical_training_start_date}}"
-                                                            data-datepicker-color="Success" name="start_date" value="{{student.practical_training_start_date}}">
+                                                            class="form-control datepicker" 
+                                                            data-datepicker-color="Success" name="start_date" 
+                                                            value="{% if student.practical_training_start_date %}{{student.practical_training_start_date|date:'Y-m-d'}}{% endif %}">
                                                     </div>
                                                 </div>
                                             </div>
