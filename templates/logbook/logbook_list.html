@@ -171,7 +171,7 @@ function prepare(redirect_id){
     target_delete_id = redirect_id
 }
 function dispose(){
-    target = "/logbook/dispose/"+target_delete_id
+    target = "/logbook/catalog/"+target_delete_id+"/delete/"
     clean()
     window.location.href = target
 }
