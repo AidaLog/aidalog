@@ -36,11 +36,11 @@
                                     {% endfor %}
                                 {% endif %}     
                             </p>
-                            <a href="{% url 'operations' logbook.id %}" class="btn btn-primary mt-4 btn-sm">Week Operations & Diagram</a>
+                            <a href="{% url 'operations_list' logbook.id %}" class="btn btn-primary mt-4 btn-sm">Week Operations & Diagram</a>
                             {% if metadata.entry_count == 0 %}
-                            <a href="{% url 'logbook_batch' logbook.id %}" class="btn btn-neutral mt-4 btn-sm">Create Entries</a>
+                            <a href="{% url 'entry_batch_create' logbook.id %}" class="btn btn-neutral mt-4 btn-sm">Create Entries</a>
                             {% else %}
-                            <a href="{% url 'aidalog' logbook.id %}" class="btn btn-success mt-4 btn-sm">Print</a>
+                            <a href="{% url 'logbook_generate' logbook.id %}" class="btn btn-success mt-4 btn-sm">Print</a>
                             {% endif %}
                         </div>
 
@@ -162,7 +162,7 @@
                                             <p>
                                                 {{entry.activity}}
                                             </p>
-                                            <a href="{% url 'logbook_entry' logbook.id entry.id %}" class="btn btn-neutral btn-round mt-2 btn-sm float-right" style="font-size: 12px;">Update</a>
+                                            <a href="{% url 'entry_update' logbook.id entry.id %}" class="btn btn-neutral btn-round mt-2 btn-sm float-right" style="font-size: 12px;">Update</a>
                                         </div>
                                         <!-- end entry content -->
                                     </div>

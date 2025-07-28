@@ -12,8 +12,8 @@
                     <div class="row mt-2">
                         <div class="col-12 text-right">
                             <a href="{% url 'logbook_detail' logbook.id %}" class="btn btn-sm"> <i class="fa fa-arrow-back"></i>Back</a>
-                            <a href="{% url 'update_diagram' logbook.id %}" class="btn btn-sm"> <i class="fa fa-edit"></i>Update Activity Diagram</a>
-                            <a href="{% url 'create_operations' logbook.id %}" class="btn btn-sm"> <i class="fa fa-plus"></i> Add Operation</a>
+                            <a href="{% url 'diagram_update' logbook.id %}" class="btn btn-sm"> <i class="fa fa-edit"></i>Update Activity Diagram</a>
+                            <a href="{% url 'operations_create' logbook.id %}" class="btn btn-sm"> <i class="fa fa-plus"></i> Add Operation</a>
                         </div>
                     </div>
                     <div class="row justify-content-between">
@@ -32,7 +32,7 @@
                                             <i class="tim-icons icon-simple-remove"></i>
                                             </button>
                                             <span data-notify="icon" class="tim-icons icon-bell-55"></span>
-                                            <span>Hi there! your week operations are empty <br><br><a href="{% url 'create_operations' logbook.id %}" class="font-weight-bold text-info"> <i class="fa fa-plus"></i> Add Here</a> </span>
+                                            <span>Hi there! your week operations are empty <br><br><a href="{% url 'operations_create' logbook.id %}" class="font-weight-bold text-info"> <i class="fa fa-plus"></i> Add Here</a> </span>
                                         </div>
                                         {% else %}
                                             {% for operation in week_operations %}
@@ -53,9 +53,9 @@
                                                             <!-- edit and delete buttons-->
                                                             <div class="row mt-2">
                                                                 <div class="col-12 text-right">
-                                                                    <a href="{% url 'update_operations' logbook.id operation.id %}" class="text-primary btn btn-sm"> <i class="fa fa-edit"></i> Edit</a>
-                                                                
-                                                                    <a href="{% url 'delete_operations' logbook.id operation.id %}" class="btn text-danger btn-sm"><i class="fa fa-trash"></i> Dispose</a>
+                                                                    <a href="{% url 'operations_edit' logbook.id operation.id %}" class="text-primary btn btn-sm"> <i class="fa fa-edit"></i> Edit</a>
+
+                                                                    <a href="{% url 'operations_delete' logbook.id operation.id %}" class="btn text-danger btn-sm"><i class="fa fa-trash"></i> Dispose</a>
                                                                 </div>
                                                             </div>
                                                         </div>
