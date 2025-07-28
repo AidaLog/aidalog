@@ -125,6 +125,14 @@ def logbook_catalog_view(request):
     logbooks = Logbook.objects.filter(student=student)
     logbook_catalog = []
 
+    # if empty logbooks, return empty catalog
+    if not logbooks:
+        context = {
+            "logbooks": logbook_catalog,
+            "logbook_count": 0
+        }
+        return render(request, 'logbook/logbook_list.html', context)
+
     for logbook in logbooks:
         metadata = {}
         metadata['id'] = logbook.id
