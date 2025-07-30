@@ -612,7 +612,6 @@ def update_activity_diagram(request, logbook_id):
     return render(request, 'logbook/logbook_operations_diagram.html', context)
 
 def get_week_entries(request, week_number):
-    # Check if user is authenticated
     login_pass = is_allowed(request)
     if login_pass is not True:
         return login_pass
@@ -636,6 +635,6 @@ def get_week_entries(request, week_number):
                 'activity': entry.activity.strip()
             })
         except Entry.DoesNotExist:
-            continue  # Skip days with no entry
+            continue 
 
-    return JsonResponse(entries, safe=False)  # safe=False allows serializing a list
+    return JsonResponse(entries, safe=False)

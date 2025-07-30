@@ -17,7 +17,6 @@
                 </div>
                 {% endif %}
 
-                <!-- Debug output for template context -->
                 <p class="text-muted">Debug: Logbook ID = {{ logbook.id }}, Week Number = {{ logbook.week_number }}</p>
 
                 <div class="row">
@@ -81,7 +80,7 @@
         generateButton.click(function () {
             generateButton.text('Generating...').prop('disabled', true);
 
-            // Fetch week entries from the Django endpoint
+            // Fetch week entries
             const weekNumber = {{ logbook.week_number|default:0|safe }};
             if (!weekNumber) {
                 alert('Error: Week number is not defined. Please ensure a valid logbook is selected.');
@@ -90,26 +89,21 @@
             }
 
             const url = '{% url "get_week_entries" week_number=logbook.week_number %}';
-            console.log('Fetching URL:', url); // Debug log
 
             $.ajax({
                 url: url,
                 method: 'GET',
                 dataType: 'json',
                 xhrFields: {
-                    withCredentials: true // Ensure session cookies are sent
+                    withCredentials: true
                 },
                 success: function (entries) {
-                    console.log('Fetched entries:', entries); // Debug log
 
-                    // Check if the response indicates an error
                     if (entries.error) {
                         alert('Error: ' + entries.error);
                         generateButton.text('Generate Summary').prop('disabled', false);
                         return;
                     }
-
-                    // First API call: Generate operation summary
                     const operationSystemMessage = `Write a summary of entire week entries in concise, past-tense sentences that provide clear and detailed descriptions of a week's activities, focusing on what was accomplished, learned, and experienced during the week. Maintain a formal and professional tone, using technical terminology as needed to accurately convey the tasks, tools, and outcomes, emphasizing the educational aspects of the training while also highlighting the practical outcomes achieved based on this user week activity done, focusing on the operations and machinery used and core activities performed throughout the week.`;
                     const userPrompt = 'Week Entries: ' + JSON.stringify(entries);
 
@@ -122,12 +116,10 @@
                             user_prompt: userPrompt
                         }),
                         success: function (operationResponse) {
-                            console.log('Operation AI Response:', operationResponse); // Debug log
 
                             if (operationResponse.generated_text) {
                                 $('#operation').val(operationResponse.generated_text);
 
-                                // Second API call: Generate machinery summary
                                 const machinerySystemMessage = `Extract and summarize the machinery, tools, or equipment used in the week's activities based on the provided entries. Provide a concise list or description of the tools and machinery mentioned or implied in the activities, using technical terminology where appropriate. Focus solely on identifying and describing the tools, equipment, or machinery used, avoiding repetition of the activity descriptions.`;
                                 $.ajax({
                                     url: 'https://jumarubea-logbook-ai-gen.hf.space/api/ai-generate',
@@ -138,7 +130,6 @@
                                         user_prompt: userPrompt
                                     }),
                                     success: function (machineryResponse) {
-                                        console.log('Machinery AI Response:', machineryResponse); // Debug log
                                         if (machineryResponse.generated_text) {
                                             $('#machinery').val(machineryResponse.generated_text);
                                         } else {
