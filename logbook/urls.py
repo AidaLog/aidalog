@@ -16,6 +16,7 @@ from .views import (
     operations_edit_view,
     operations_delete_view,
     update_activity_diagram,
+    get_week_entries,
 )
 
 urlpatterns = [
@@ -66,5 +67,10 @@ urlpatterns = [
         "catalog/<int:logbook_id>/diagram/update/",
         update_activity_diagram,
         name="diagram_update",
+    ),
+    path(
+        'week-entries/<int:week_number>/', 
+        get_week_entries, 
+        name='get_week_entries'
     ),
 ]

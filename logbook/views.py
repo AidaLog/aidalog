@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.http import JsonResponse
 from home.views import process_login, logout
 from .models import Student, Logbook, Entry, Week_operation, User
 from datetime import datetime, timedelta
@@ -609,3 +610,32 @@ def update_activity_diagram(request, logbook_id):
     }
 
     return render(request, 'logbook/logbook_operations_diagram.html', context)
+
+def get_week_entries(request, week_number):
+    # Check if user is authenticated
+    login_pass = is_allowed(request)
+    if login_pass is not True:
+        return login_pass
+
+    try:
+        student = Student.objects.get(user=request.user)
+        logbook = Logbook.objects.get(student=student, week_number=week_number)
+    except Student.DoesNotExist:
+        return JsonResponse({"error": "Student profile not found."}, status=404)
+    except Logbook.DoesNotExist:
+        return JsonResponse({"error": "Logbook not found."}, status=404)
+
+    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+    entries = []
+
+    for day in days:
+        try:
+            entry = Entry.objects.get(logbook=logbook, day=day)
+            entries.append({
+                'day': day,
+                'activity': entry.activity.strip()
+            })
+        except Entry.DoesNotExist:
+            continue  # Skip days with no entry
+
+    return JsonResponse(entries, safe=False)  # safe=False allows serializing a list
