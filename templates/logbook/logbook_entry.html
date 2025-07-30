@@ -1,10 +1,13 @@
 {% extends 'logbook/includes/base.html' %}
 {% load static %}
 
-<!-- main block -->
 {% block main_block %}
-    <div class="wrapper">
+<div class="wrapper">
+    <div class="main">
+        <div class="section">
+            <div class="container">
 
+<<<<<<< HEAD
         <div class="main">
             <div class="section">
                 <div class="container">
@@ -84,17 +87,185 @@
                             </div>
                         </div>
                     </form>
+=======
+                {% if form_errors %}
+                <div class="alert alert-danger alert-with-icon">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="tim-icons icon-simple-remove"></i>
+                    </button>
+                    <span data-notify="icon" class="tim-icons icon-bell-55"></span>
+                    <span><b>{{ form_errors }}</b></span>
+>>>>>>> feature/ai_generation
                 </div>
+                {% endif %}
+
+                <form class="row justify-content-between" method="post">
+                    {% csrf_token %}
+
+                    <!-- Left column -->
+                    <div class="col-lg-6">
+                        <div class="card card-plain">
+                            <div class="card-body">
+                                <h1 class="font-weight-light">Entry information</h1>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="datepicker-container">
+                                            <div class="form-group">
+                                                <label>Entry date: {{ entry.date }}</label>
+                                                <input type="date" id="date_input"
+                                                    class="form-control datepicker rounded border border-warning"
+                                                    value="{{ entry_date }}" name="date_input"
+                                                    placeholder="Date" data-datepicker-color="Success">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Activity Summary</label>
+                                            <textarea class="form-control rounded border border-primary"
+                                                name="activity_summary" id="activity_summary"
+                                                placeholder="Day activity details">{% if new_entry %}{{ new_entry }}{% else %}{{ entry.activity }}{% endif %}</textarea>
+                                            <button type="button" class="btn btn-secondary mt-2 float-right"
+                                                id="generateWithAI">Generate with AI</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card card-plain">
+                            <div class="card-body">
+                                <a href="/logbook/catalog/{{ logbook.id }}/"
+                                   class="btn btn-link btn-sm float-right text-light">
+                                    <i class="tim-icons icon-minimal-left"></i> Back
+                                </a>
+                                <h2 class="font-weight-light">Week - {{ logbook.week_number }}
+                                    <span class="px-2"></span>(
+                                    {% if entry.date %}
+                                        {{ entry.date }}
+                                    {% else %}
+                                        {{ logbook.from_date }}
+                                    {% endif %})
+                                </h2>
+                                <h4 class="text-light">Summarized Entry</h4>
+                                <p class="text-white mt-4" id="summary">
+                                    Input the date using the provided calendar or by typing it in the correct format.
+                                    Next, describe your activities concisely and specifically. Optionally, add any
+                                    additional information in fields like "Notes" or "Comments." Review your input, and
+                                    once satisfied, click "Save" to save the entry.
+                                </p>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <span class="btn btn-neutral btn-sm float-left fade"
+                                                  rel="tooltip" data-original-title="Regenerate summary"
+                                                  data-placement="bottom">Regenerate</span>
+
+                                            <span class="btn btn-default btn-sm float-left fade"
+                                                  rel="tooltip" data-original-title="Use original content"
+                                                  data-placement="bottom">Original</span>
+
+                                            <button type="submit" class="btn btn-success btn-round float-right"
+                                                    rel="tooltip" data-original-title="Save"
+                                                    data-placement="bottom">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="modal fade" id="aiPromptModal" tabindex="-1" aria-labelledby="aiPromptModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="aiPromptModalLabel">Generate Activity Summary</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="ai_prompt">Describe what you did today:</label>
+                                    <textarea class="form-control" id="ai_prompt" rows="4"
+                                              placeholder="e.g., Attended team meeting, worked on project X, resolved issue Y"
+                                              style="color: #212529 !important; background-color: #fff !important;"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="generateAIBtn">Generate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
+</div>
 
-    <!-- form manipulation -->
-    <script>
-        const summary_input = document.getElementById("activity_summary")
-        summary_input.oninput = ()=>{
-            document.getElementById("summary").innerHTML = summary_input.value
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const summaryInput = document.getElementById("activity_summary");
+        if (summaryInput) {
+            summaryInput.oninput = () => {
+                document.getElementById("summary").innerText = summaryInput.value;
+            };
         }
-    </script>
+    });
+</script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#generateWithAI').click(function () {
+            $('#aiPromptModal').modal('show');
+        });
+        $('#generateAIBtn').click(function () {
+    const userPrompt = $('#ai_prompt').val().trim();
+    if (!userPrompt) {
+        alert('Please describe what you did today.');
+        return;
+    }
+
+    const $button = $(this); 
+    $button.prop('disabled', true).text('Generating...');
+
+    const systemMessage = "Write a summary entries in concise, past-tense sentences that provide clear and detailed descriptions of a day activities, focusing on what was accomplished, learned, and experienced during the a day. Maintain a formal and professional tone, using technical terminology as needed to accurately convey the tasks, tools, and outcomes. emphasizing the educational aspects of the training while also highlighting the practical outcomes achieved based on this user day activity done"
+
+    $.ajax({
+        url: 'https://jumarubea-logbook-ai-gen.hf.space/api/ai-generate',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            system_message: systemMessage,
+            user_prompt: userPrompt
+        }),
+        success: function (response) {
+            console.log("AI Response:", response);
+            if (response.generated_text) {
+                $('#activity_summary').val(response.generated_text);
+                $('#aiPromptModal').modal('hide');
+                $('#ai_prompt').val('');
+                $('#summary').text(response.generated_text);
+            } else {
+                alert('Error: No generated text received from the API.');
+            }
+        },
+        error: function (xhr) {
+            console.error("AI Error:", xhr);
+            alert('Error generating summary: ' + (xhr.responseJSON?.error || xhr.responseText || 'Unknown error'));
+        },
+        complete: function () {
+            $button.prop('disabled', false).text('Generate');
+        }
+    });
+});
+
+            });
+</script>
 {% endblock main_block %}
