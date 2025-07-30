@@ -7,87 +7,6 @@
         <div class="section">
             <div class="container">
 
-<<<<<<< HEAD
-        <div class="main">
-            <div class="section">
-                <div class="container">
-                    {% if form_errors %}
-                        <div class="alert alert-danger alert-with-icon">
-                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-                            <i class="tim-icons icon-simple-remove"></i>
-                            </button>
-                            <span data-notify="icon" class="tim-icons icon-bell-55"></span>
-                            <span>
-                            <b> {{form_errors}} </span>
-                        </div>
-                    {% endif %}
-                    <form class="row justify-content-between" method="post"> {% csrf_token %}
-
-                        <div class="col-lg-6">
-                            <div class="card card-plain">
-                                <div class="card-body">
-                                    <h1 class="font-weight-light">Entry information</h1>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="datepicker-container">
-                                                <div class="form-group">
-                                                    <label>Entry date: {{entry.date}}</label>
-                                                    <input type="date" id="datepicker"
-                                                        class="form-control datepicker rounded border border-warning" value="{{entry_date}}"
-                                                        placeholder="Date" data-datepicker-color="Success" id="date_input" name="date_input" >
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label>Activity Summary</label>
-                                                <textarea class="form-control rounded border border-primary" value="{{entry.activity}}"
-                                                    name="activity_summary" id="activity_summary" placeholder="Day activity details">{% if new_entry %}{{new_entry}}{% else %}{{entry.activity}}{% endif %}</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="card card-plain">
-                                <div class="card-body">
-                                    <a href="/logbook/catalog/{{logbook.id}}/" class="btn btn-link btn-sm float-right text-light"><i class="tim-icons icon-minimal-left"></i> Back</a>
-                                    <h2 class="font-weight-light">Week - {{logbook.week_number}}<span class="px-2"></span>( 
-                                    {% if entry.date %}
-                                        {{entry.date}}
-                                    {% else %}
-                                        {{logbook.from_date}}
-                                    {% endif %})</h2>
-                                    <h4 class="text-light">Summarized Entry</h4>
-                                    <p class="text-white mt-4" id="summary">
-                                        Input the date using the provided calendar or by typing it in the correct format. Next, Describe your activities concisely and specifically. Optionally, add any additional information in that fields like "Notes" or "Comments." Review your input, and once satisfied, click "Save"  to save the entry. 
-                                    </p>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <span class="btn btn-neutral btn-sm float-left fade" rel="tooltip"
-                                                    data-original-title="Regenerate summary"
-                                                    data-placement="bottom">Regenerate</span>
-
-                                                <span type="submit" class="btn btn-default btn-sm float-left fade"
-                                                    rel="tooltip" data-original-title="Use original content"
-                                                    data-placement="bottom">original</span>
-
-                                                <button type="submit" class="btn btn-success btn-round float-right"
-                                                    rel="tooltip" data-original-title="save"
-                                                    data-placement="bottom">Save</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-=======
                 {% if form_errors %}
                 <div class="alert alert-danger alert-with-icon">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -95,7 +14,6 @@
                     </button>
                     <span data-notify="icon" class="tim-icons icon-bell-55"></span>
                     <span><b>{{ form_errors }}</b></span>
->>>>>>> feature/ai_generation
                 </div>
                 {% endif %}
 
